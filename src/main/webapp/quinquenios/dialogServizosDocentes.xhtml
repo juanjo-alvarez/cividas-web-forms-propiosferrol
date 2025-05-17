@@ -1,0 +1,87 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:dialog header="#{i18n.titleServicioDocenteDialog}" widgetVar="servicioDocenteDialog" resizable="true" modal="true" width="calc(100% - 25px)"  >
+
+			<h:form id="dlgServicioDocente" >
+
+				<h:panelGrid id="servicioDocenteData" width="calc(100% - 25px)">
+
+					<p:outputLabel class="box-texttitle" for="servdoc_categoria" value="#{i18n.servdoc_categoria}">: </p:outputLabel>
+					<p:inputText id="servdoc_categoria"	value="#{quinqueniosController.selectedServicioDocente.categoria}" size="95" required="true" maxlength="512"/>
+
+
+
+					<div  >
+						<p:panelGrid columns="2" layout="flex" styleClass="ui-noborder">
+							<p:row  >
+								<p:outputLabel for="fechainiServDocDisplay"
+									value="#{i18n.servdoc_fechaini}">: </p:outputLabel>
+								<p:datePicker id="fechainiServDocDisplay" showIcon="true" style="width:auto" locale="es"
+								pattern="dd/MM/yyyy" value="#{quinqueniosController.selectedServicioDocente.fechainidate}" required="true">
+								<f:validator validatorId="com.cividas.customforms.webapp.validators.pastDateValidator"/>
+								</p:datePicker>
+
+								<p:outputLabel for="fechafinServDocDisplay"
+									value="#{i18n.servdoc_fechafin}">: </p:outputLabel>
+									<p:datePicker id="fechafinServDocDisplay" showIcon="true" style="width:auto" locale="es"
+								pattern="dd/MM/yyyy" value="#{quinqueniosController.selectedServicioDocente.fechafindate}" required="true">
+								</p:datePicker>
+
+							</p:row>
+
+
+
+						</p:panelGrid>
+					</div>
+
+					<p:outputLabel class="box-texttitle" for="servdoc_reximededicacion" value="#{i18n.servdoc_reximededicacion}">: </p:outputLabel>
+					<p:inputText id="servdoc_reximededicacion"	value="#{quinqueniosController.selectedServicioDocente.reximededicacion}" size="95" required="true" maxlength="512"/>
+
+					<p:outputLabel class="box-texttitle" for="servdoc_organismo" value="#{i18n.servdoc_organismo}">: </p:outputLabel>
+					<p:inputText id="servdoc_organismo"	value="#{quinqueniosController.selectedServicioDocente.organismo}" size="95" required="true" maxlength="512"/>
+					
+					<p:outputLabel class="box-texttitle" for="servdoc_rexime" value="#{i18n.servdoc_rexime}">: </p:outputLabel>
+<!-- 					<p:inputText id="servdoc_rexime"	value="#{quinqueniosController.selectedServicioDocente.rexime}" size="95" required="true" maxlength="512"/> -->
+					
+									<h:selectOneMenu class="box-selectform" id="servdoc_rexime"
+										value="#{quinqueniosController.selectedServicioDocente.rexime}"
+										required="true" disabled="false"
+										style="min-width:50px;opacity: 0.65">
+										<f:selectItem itemLabel="#{i18n.seleccioneun}" itemValue="" />
+										<f:selectItem itemLabel="Interinidade" itemValue="Interinidade" />
+										<f:selectItem itemLabel="Contrato" itemValue="Contrato" />
+										<f:selectItem itemLabel="Funcionario de carreira" itemValue="Funcionario de carreira" />
+										<f:selectItem itemLabel="Contratado doutor fixo" itemValue="Contratado doutor fixo" />
+									</h:selectOneMenu>
+					
+					
+					<p:messages id="servdocMessages" showIcon="false" autoUpdate="true"/>
+				</h:panelGrid>
+
+				<h:panelGrid id="servicioDocenteButtons" width="calc(100% - 25px)">
+								
+					<p:commandButton id="buttonNuevo" value="#{i18n.buttonSaveDialog}"
+						actionListener="#{quinqueniosController.newServicioDocente}"
+						update="panelDatatableServiciosDocentes :serviciosDocentesTable servicioDocenteData"
+ 						rendered="#{empty quinqueniosController.selectedServicioDocente.idserviciodocente}"  />
+					<p:commandButton id="buttonSave" value="#{i18n.buttonSaveDialog}"
+						actionListener="#{quinqueniosController.saveServicioDocente}"
+						update="panelDatatableServiciosDocentes :serviciosDocentesTable servicioDocenteData"
+ 						rendered="#{!empty quinqueniosController.selectedServicioDocente.idserviciodocente}" />
+				</h:panelGrid>
+				
+
+				
+				
+				
+			</h:form>
+		</p:dialog>		
+	
+	
+	
+</ui:composition>

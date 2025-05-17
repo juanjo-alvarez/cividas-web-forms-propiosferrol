@@ -1,0 +1,65 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="boxes-full personaldata" style="text-align:justify !important; width: calc(100% - 25px);">
+						<div class="box-title">
+							<h2 style="font-size: 1.3em"><p:outputLabel for="networknotification" value="#{i18n.notificationdata}"/></h2>
+						</div>
+						<p:panelGrid columns="1" styleClass="cer-receiptInfoGroupContainer cer-receiptInfoBorderContainer"
+							style="width:100%;margin:auto;border-top:none !important;border-bottom:none !important;border: none !important; margin-top: 1em;"
+							>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column >
+										<h:outputText value="#{i18n.notif_text1}" />
+									</p:column>
+								</p:row>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column style="font:bold !important">
+										<p:selectOneRadio layout="grid" columns="1" id="networknotification" style="background-color: white!important;"
+											value="#{datosSolicitud.networknotification}"
+											disabled="#{datosSolicitud.cif}"
+											required="true"
+											requiredMessage="#{i18n.networknotification} - #{i18n.mandatory_field}"
+											>
+											<f:selectItem itemValue="1" itemLabel="#{i18n.notif_telematic }" />
+											<f:selectItem itemValue="0" itemLabel="#{i18n.notif_postal }" />
+											<f:ajax event="click" update="this" />
+										</p:selectOneRadio>
+									</p:column>
+								</p:row>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column >
+										<h:outputText value="#{i18n.notif_text2}" />
+									</p:column>
+								</p:row>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column style="text-align:left !important">
+										<p:inputText id="email" value="#{datosSolicitud.model.interesteddata[0].email}"
+											class="box-textform" validatorMessage="#{i18n.wrong_email}"
+											required="#{datosSolicitud.networknotification==1}" requiredMessage="#{i18n.email} #{i18n.mandatory_field_electronic_notification}">
+											<f:validateRegex
+													pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+											<f:ajax event="blur" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column >
+										<h:outputText value="#{i18n.notif_text3}" />
+									</p:column>
+								</p:row>
+						</p:panelGrid>
+					</div>
+
+
+
+</ui:composition>

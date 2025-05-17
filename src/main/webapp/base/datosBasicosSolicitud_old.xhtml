@@ -1,0 +1,66 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- <p:fieldset legend="#{i18n.sol_data}" style="margin-bottom:20px"> -->
+	<div class="box-100column">
+							<div class="boxes-full" style="width: calc(100% - 25px);">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">#{i18n.sol_data}</h2>
+								</div>
+		<h:panelGrid columns="2" cellpadding="5">
+			<p:outputLabel for="dni" value="#{i18n.dni}">: </p:outputLabel> 
+			<p:inputText styleClass="form-control" id="dni" value="#{datosSolicitud.model.interesteddata[0].identificationnumber}" required="true" requiredMessage="#{i18n.requiredFieldMessages}" ></p:inputText>
+
+			<p:outputLabel for="nombre" value="#{i18n.nombre}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="nombre" value="#{datosSolicitud.model.interesteddata[0].name}" required="true" />
+
+			<p:outputLabel for="apellido1" value="#{i18n.apellido1}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="apellido1" value="#{datosSolicitud.model.interesteddata[0].surname1}" />
+
+			<p:outputLabel for="apellido2" value="#{i18n.apellido2}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="apellido2" value="#{datosSolicitud.model.interesteddata[0].surname2}" />
+
+			<p:outputLabel for="email" value="#{i18n.email}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="email" value="#{datosSolicitud.model.interesteddata[0].email}" required="true" >
+				<p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+			</p:inputText>
+			
+			<p:outputLabel for="idindividualsmasteraddress" value="#{i18n.idindividualsmasteraddress}">: </p:outputLabel>
+			<p:selectOneMenu class="form-control" id="idindividualsmasteraddress" autoWidth="false" style="max-width:467px"  hideNoSelectionOption="true" required="true" value="#{datosSolicitud.model.interesteddata[0].interestedaddress.idindividualsmasteraddress}" converter="javax.faces.Integer">
+				<f:selectItem itemValue="#{null}" itemLabel="Seleccione una dirección" noSelectionOption="true" />
+				<f:selectItems value="#{datosSolicitud.individualAddress.entrySet()}" var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />		
+			</p:selectOneMenu>
+
+		</h:panelGrid>
+		
+<!-- 	</p:fieldset> -->
+</div>
+</div>
+
+	<!-- <p:fieldset legend="#{i18n.rep_data}" style="margin-bottom:20px"> -->
+		<div class="box-100column">
+							<div class="boxes-full" style="width: calc(100% - 25px);">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">#{i18n.rep_data}</h2>
+								</div>
+		<h:panelGrid columns="2" cellpadding="5">
+			<p:outputLabel for="dni_rep" value="#{i18n.dni_rep}">: </p:outputLabel> 
+			<p:inputText styleClass="form-control" id="dni_rep" value="#{datosSolicitud.model.interesteddata[1].identificationnumber}" >
+			</p:inputText>
+			
+			<p:outputLabel for="nombre_rep" value="#{i18n.nombre_rep}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="nombre_rep" value="#{datosSolicitud.model.interesteddata[1].name}" required="#{not empty param['dni_rep']}" requiredMessage="#{i18n.conditionedRequiredName}" />
+
+			<p:outputLabel for="apellido1_rep" value="#{i18n.apellido1_rep}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="apellido1_rep" value="#{datosSolicitud.model.interesteddata[1].surname1}" required="#{not empty param['dni_rep']}" requiredMessage="#{i18n.conditionedRequiredSurname1}"/>
+
+			<p:outputLabel for="apellido2_rep" value="#{i18n.apellido2_rep}">: </p:outputLabel> 
+			<p:inputText type="text" styleClass="form-control" id="apellido2_rep" value="#{datosSolicitud.model.interesteddata[1].surname2}" />
+		</h:panelGrid>
+<!-- 	</p:fieldset> -->
+</div></div>
+</ui:composition>

@@ -1,0 +1,78 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+							<!-- Lista preferencias bolsas-->
+							<div class="boxes-full" style="width: calc(100% - 25px);">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">
+									<div id="wrapper" style="width: 700px">
+										<div style="float:left">
+											<!-- p:outputLabel for="preferenciasbolsasvacio" value="#{i18n.titlePreferenciasBolsasDialog}"/-->
+											#{i18n.titlePreferenciasBolsasDialog}
+										</div> 
+										<div style="float:right;font-size: 0.7em"> 
+											<p:commandButton update="dlgPreferenciaBolsa:preferenciaBolsaData dlgPreferenciaBolsa:preferenciaBolsaButtons"
+												oncomplete="PF('preferenciaBolsaDialog').show()"
+												value="#{i18n.anadir}" immediate="true"
+												action="#{datosSolicitud.addPreferenciaBolsa}">
+											</p:commandButton>
+										</div>
+									</div>
+									</h2>
+								</div>
+							    <h:panelGroup id="panelDatatablePreferenciasBolsas"  >
+									<div class="box-100column">
+										<p:dataTable id="preferenciasBolsasTable" var="preferenciabolsa"
+											value="#{datosSolicitud.preferenciasBolsas}" emptyMessage="" rendered="#{!empty datosSolicitud.preferenciasBolsas}">
+			    <p:column width="90">
+												<f:facet name="header">
+													<h:outputText value="#{i18n.prefbolsa_idpreferencia}" />							
+												</f:facet>						
+												<h:outputText value="#{preferenciabolsa.idpreferencia}" >
+												</h:outputText>
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.prefbolsa_descbolsa}" />							
+												</f:facet>
+												<h:outputText value="#{preferenciabolsa.descbolsa.length() gt 80 ? preferenciabolsa.descbolsa.substring(0,77).concat('...') : preferenciabolsa.descbolsa}" />
+											</p:column>
+											
+											<p:column style="width:40px">
+																
+												<p:commandLink update="dlgPreferenciaBolsa:preferenciaBolsaData dlgPreferenciaBolsa:preferenciaBolsaButtons"
+													oncomplete="PF('preferenciaBolsaDialog').show()" immediate="true">
+													<f:setPropertyActionListener value="#{preferenciabolsa}" target="#{datosSolicitud.selectedPreferenciaBolsa}" />											
+														<h:graphicImage alt="ko" library="images" name="icons/magnifying_glass16.png" style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+													
+												<p:commandLink update="panelDatatablePreferenciasBolsas preferenciasBolsasTable preferencesHasValue" immediate="true" >
+												
+													<f:setPropertyActionListener value="#{preferenciabolsa}" target="#{datosSolicitud.deletedPreferenciaBolsa}" />											
+													<h:graphicImage alt="ko" library="images" name="icons/delete16.png"	style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+											</p:column>			
+										</p:dataTable>									
+									</div>
+									
+									
+								</h:panelGroup>	
+								
+								<h:panelGroup id="preferencesHasValue">
+								<p:selectBooleanCheckbox id="preferenciasbolsasvacio" style="display: none"
+									value="#{datosSolicitud.preferencesHasValue}"
+									itemLabel="#{i18n.preferencesHasValue}" 
+									required="true" requiredMessage="#{i18n.preferenciasbolsasvacio}">
+								<f:validator validatorId="com.cividas.customforms.webapp.validators.RequiredCheckboxValidator" />
+								</p:selectBooleanCheckbox>
+								</h:panelGroup>	
+								
+							</div>
+			
+					
+
+</ui:composition>

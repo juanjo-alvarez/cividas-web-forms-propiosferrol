@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/template/defaultTemplate.xhtml">
+		
+		<ui:define name="header">
+		<h:outputStylesheet name="css/custom-forms.css" />
+
+		</ui:define>
+		
+		<ui:define name="formdata">
+			<h:form id="NewRegistryForm" prependId="false" style="width:90%;">
+			
+				<h2 class="entrySubtitle" style="max-width: 600px;margin: auto;text-align:left;margin-left:6%;margin-bottom:10px;">
+					#{procedureDetailController.proceduretypedesc}
+				</h2>
+				<div id="content" class="entryTable">
+					<div class="entryBillboard">
+						<div class="entryTable" style="margin-left:6%;">
+							<div  class="entryTableRow">
+								<div class="fieldName" style="font-weight:normal;display: table-cell;float: none;text-align: left;padding-right: 1em;width: 55px;">#{i18n.checkin}:</div>
+								<div class="fieldValue" style="font-style:italic;display: table-cell;float: none;min-width: 0 !important;">#{procedureDetailController.model.creationdate}</div>
+							</div> 
+							<div  class="entryTableRow">
+								<div class="fieldName" style="font-weight:normal;display: table-cell;float: none;text-align: left;padding-right: 1em;width: 55px;">#{i18n.statedescription}:</div>
+								<div class="fieldValue" style="font-style:italic;display: table-cell;float: none;min-width: 0 !important;">
+									<span class="procedureDetailBean_statuscitizenportaliconclass"></span>
+									#{procedureDetailController.statuscitizenportal}
+								</div>
+							</div>
+							<div  class="entryTableRow">
+								<div class="fieldName" style="font-weight:normal;display: table-cell;float: none;text-align: left;padding-right: 1em;width: 55px;">#{i18n.applicantsubject}:</div>
+								<div class="fieldValue" style="font-style:italic;display: table-cell;float: none;min-width: 0 !important;">#{procedureDetailController.model.applicantsubject}</div>
+							</div>
+						</div>
+					</div>
+					<div class="entryTableLeftFieldNameRow" style="margin-top:4em;margin-left:6%;">
+						<div class="fieldName" style="margin-top: 1em;">#{i18n.procedureattachment}:</div>
+						<div class="fieldValue"></div>
+						<ui:fragment rendered="#{procedureDetailController.attachcount gt 0}">
+							<ol style="list-style:none;margin-top:0;margin-bottom:1em;">
+								<ui:repeat value="#{procedureDetailController.model.attachments}" var="item">
+									<li class="entryTableBodyRow" style="display:inline-block;white-space: nowrap;border-bottom: 1px solid #d5d5d5;">
+										<h:graphicImage style="display:inline-block;white-space: nowrap;margin-right: #{empty item.csv?'3px':'7px'};" alt="#{i18n.download}" title="#{i18n.download}" library="images" name="icons/format/#{procedureDetailController.getFileNameExtension(item.attachmentfilename)}" />
+										<h:outputLink style="display:inline-block;white-space: nowrap;width:70%;background-image:none;color:#000;" value="#{appConfiguration.webBaseURI}/dcsv/#{item.csv}">
+											<span><h:outputText style="display:inline-block;white-space: nowrap;width:100%;margin-left:.25em;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;" value="#{ not empty item.attachmentdatadesc ? item.attachmentdatadesc : item.attachmentfilename }" /></span>
+										</h:outputLink>
+										<h:outputText style="display:inline-block;white-space: nowrap;float:right" value="#{item.attachmentfilesize}" />
+									</li>
+								</ui:repeat>
+							</ol>
+						</ui:fragment>
+					</div>
+					
+					<ui:fragment rendered="#{procedureDetailController.attachcount eq 0}">
+							<p style="margin-left:3em;margin-bottom:1em;text-align:left;font-size: .85em;margin-left:6%;"><h:outputText value="#{i18n.noattachmentsfound}" /></p>
+						</ui:fragment>
+					<div class="entryTableLeftFieldNameRow" style="margin-top:4em">
+						<div class="fieldName" style="margin-top: 1em;">#{i18n.tasksperformed}:</div>
+						<div class="fieldValue"></div>
+					</div>
+					<div class="entryTableRow">
+						<div class="entryTableCellFullWidthCentered" style="padding:0">
+							<ui:fragment rendered="#{procedureDetailController.taskcount eq 0}">
+								<p style="margin-left:6%;margin-bottom:1em;text-align:left"><h:outputText value="#{i18n.noattasksfound}" /></p>
+							</ui:fragment>
+							<div class="entryTableNarrow" style="width:calc(80% + 5em);margin-left: 6%;">
+								<ui:fragment rendered="#{procedureDetailController.taskcount gt 0}">
+									<div class="entryTableHeaderRow">
+											<div class="entryTableCell">#{i18n.tasktypedesc}</div>
+											<div class="entryTableCell">#{i18n.taskdescription}</div>
+											<div class="entryTableCell">#{i18n.taskdate}</div>
+									</div>
+									<ui:repeat value="#{procedureDetailController.model.tasks}" var="item">
+										<div class="entryTableBodyRow">
+											<div class="entryTableCell">#{procedureDetailController.languageBean.lang == 'es' ? item.tasktypedescweb_lg1 : item.tasktypedescweb_lg2} </div>
+											<div class="entryTableCell">#{item.taskdescription}</div>
+											<div class="entryTableCell entryTableDateCell">#{item.taskdate}</div>
+										</div>
+									</ui:repeat>
+								</ui:fragment>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>	
+		</ui:define>
+		<!-- Envio de la información de sesión al bean. Esta parte es obligatoria para todos los formularios -->
+		<ui:define name="receiveparameters" >
+			<h:form id="parameters" prependId="false">
+				<h:inputHidden id="received-message" value="#{procedureDetailController.receivedParametersInJSON}" />
+				<h:commandButton action="#{procedureDetailController.receiveParentData}" id="sendParametersToBeanButton" style="display: none;" >
+					<f:ajax execute="@form" render="NewRegistryForm" />
+				</h:commandButton>
+			</h:form>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/custom-forms-params.js"> </script>
+		</ui:define>
+	</ui:composition>
+</html>

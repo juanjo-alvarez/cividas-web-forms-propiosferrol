@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	lang="#{LanguageBean.localeLanguage eq 'gl'?'gl':(LanguageBean.localeLanguage eq 'es'?'es':'en')}">
+
+<f:view contentType="text/html" encoding="UTF-8"
+	locale="#{LanguageBean.localeLanguage}">
+
+	<ui:insert name="metadata"></ui:insert>
+
+	<h:head>
+
+		<title><ui:insert name="title">#{m_ont.application_title}</ui:insert></title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="grey" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<link rel="shortcut icon"
+			href="#{resource['images/cividas/favicon.ico']}?sr=our"
+			type="image/x-icon" />
+		<link rel="icon"
+			href="#{resource['images/cividas/favicon.ico']}?sr=our"
+			type="image/x-icon" />
+		<link href='//fonts.googleapis.com/css?family=Open+Sans'
+			rel='stylesheet' type='text/css' />
+		<!-- 			<link href='http://fonts.googleapis.com/css?family=Oxygen+Mono' rel='stylesheet' type='text/css' /> -->
+
+		<h:outputStylesheet name="css/minified.css" />
+		<link rel="stylesheet" href="#{resource['css/ie-sux.css']}" />
+		<h:outputStylesheet name="ionicons/ionicons.min.css" />
+
+		<h:outputScript name="js/responsive/custom.js" />
+		<!--  <h:outputScript name="js/iframeResizer.contentWindow.js" />  -->
+
+
+		<h:outputScript name="js/pon/ceb-common.js" />
+
+
+		<h:outputScript name="js/OfficialDateTime.js" />
+
+		<h:outputScript name="js/es6-promise.auto.min.js"/>
+		<h:outputScript name="js/jspdf.umd.min.js"/>
+		<h:outputScript name="js/html2canvas.min.js"/>
+		<h:outputScript name="js/html2pdf.bundle.min.js" />
+
+		<h:outputScript name="js/printjs.min.js" />
+
+		<h:outputScript name="js/crypto-js.min.js" />
+
+		<script type="text/javascript">
+			
+				var console = window.console || { log: function(logMsg) {} },
+				officialDateTime, analyticsCode = '#{globalParametersBean.analyticsCode}';
+				
+				$(document).ready(function(){
+					officialDateTime = new OfficialDateTime();
+					officialDateTime.hourMinuteClockOnContainerId(#{officialTimeStampBean.unixTimeStampInMs}, 'datahoraheader', false);
+					$('#dateTimeButtonForm\\:setOfficialDateTimeButton').click();
+					
+					/* restart session on CTRL+ALT+SHIFT+X */
+					$(document).keydown(function(e) {
+						if (e.keyCode==88 &amp;&amp; e.ctrlKey &amp;&amp; e.shiftKey &amp;&amp; e.altKey){
+							document.getElementById('aheadLeftForm:hiddenLogout').click();
+						}
+					});
+
+				});
+				
+			</script>
+
+		<style>
+.ui-dialog {
+	z-index: 99999999 !important;
+}
+</style>
+		<ui:insert name="headerattachments" />
+
+	</h:head>
+	<h:body id="pageBody">
+		<h:panelGroup id="allcontent">
+			<!-- Start Main -->
+			<div class="ceb-pre-main">
+				<!-- Start Main Head -->
+				<div id="cividasMainHeadWrap"
+					style="max-width: 1015px; border: 1px solid #d5d5d5; margin-top: 1em;">
+					<div id="cividasMainHead" class="cividasMainHead"
+						style="padding: 0 1em;">
+
+						<div id="ahead"
+							style="display: inline-block; width: 100%; margin: 0; padding: 0">
+
+							<div id="aheadLeft"
+								style="display: inline-block; float: left; text-align: left; margin: 0; padding: 0">
+								<div>
+									<h:form id="dateTimeButtonForm">
+										<p:commandButton style="display:none"
+											id="setOfficialDateTimeButton"
+											action="#{officialTimeStampBean.getOfficialTimeStamp}"
+											ignoreAutoUpdate="true"
+											update="dateTimeButtonForm:officialDateTimeInMs"
+											oncomplete="officialDateTime.startHourMinuteClockOnContainerId(parseInt($('#dateTimeButtonForm\\:officialDateTimeInMs').val(),10), 'datahoraheader');if (typeof changeOfficialDateTimeInMs == 'function') {changeOfficialDateTimeInMs();}" />
+										<h:inputHidden id="officialDateTimeInMs"
+											value="#{officialTimeStampBean.unixTimeStampInMs}" />
+									</h:form>
+									<h:form id="aheadLeftForm" style="display:inline-block"
+										rendered="#{!globalParametersBean.clave2Enable or !LoginBean.loginClave}">
+
+										<ui:fragment
+											rendered="#{LoginBean.userLogged or LoginBean.adminUserLogged}">
+
+											<span class="ahead naviLogged-text"> <a
+												href="#{request.contextPath}/private/citizen/profile/profile.xhtml">
+													<h:outputText value="#{LoginBean.userCompleteName}" />
+											</a>
+											</span>
+
+											<h:commandLink action="#{LoginBean.logout}"
+												style="display:inline">
+
+												<h:graphicImage alt="#{m_ont.closeSession}"
+													title="#{m_app.closeSession}"
+													style="display:inline; float:right; margin-left:.5em; border-style:none; margin-top: .1em;
+											border-width:0; height:1.3em"
+													library="images" name="icons/close_session24-pon.png" />
+
+											</h:commandLink>
+
+											<ui:fragment rendered="#{LoginBean.adminUserLogged}">
+
+												<h:commandLink action="#{refreshBean.forceRefresh}"
+													style="display:inline">
+													<f:ajax render="@none" />
+													<h:graphicImage alt="#{m_ont.refreshCache}"
+														title="#{m_ont.refreshCache}"
+														style="display:inline; float:right; margin-left:.5em; border-style:none; margin-top: .1em;
+												border-width:0; height:1.3em"
+														library="images" name="pon/icons/arrow_circle2-blue.png" />
+
+												</h:commandLink>
+
+											</ui:fragment>
+
+										</ui:fragment>
+
+
+										<p:commandLink id="hiddenLogout" action="#{LoginBean.logout}"
+											style="display:none">#{m_ont.close_session}</p:commandLink>
+
+
+									</h:form>
+									<ui:fragment
+										rendered="#{globalParametersBean.clave2Enable and LoginBean.loginClave}">
+										<form id="aheadLeftForm" name="logoutClave2" method="post"
+											action="#{globalParametersBean.clave2URLlogout}">
+											<input type="hidden" name="RelayState"
+												value="#{LoginBean.relayState}" /> <input type="hidden"
+												name="logoutRequest" value="#{LoginBean.logoutRequest}" />
+											<span class="ahead naviLogged-text"> <a
+												href="#{request.contextPath}/private/citizen/profile/profile.xhtml">
+													<h:outputText value="#{LoginBean.userCompleteName}" />
+											</a>
+											</span> <a href="javascript: submitform()"><h:graphicImage
+													alt="#{m_ont.closeSession}" title="#{m_app.closeSession}"
+													style="
+													display:inline; 
+													margin-left:.5em; 
+													border-style:none; 
+													margin-top: .1em; 
+													border-width:0; 
+													height:1.3em"
+													library="images" name="icons/close_session24-pon.png" /></a>
+											<script type="text/javascript">
+									function submitform()
+									{
+									  document.logoutClave2.submit();
+									}
+									</script>
+										</form>
+
+									</ui:fragment>
+								</div>
+								<div>
+									
+									<!-- Mostramos fragmento entrada con certificado de representante -->
+									<ui:fragment
+										rendered="#{LoginBean.userLogged and not empty LoginBean.representations and empty LoginBean.reaRepresentations}">
+										<span class="ahead naviLogged-text"> <h:outputLabel
+												for="representations" style="color: #221975;"
+												rendered="#{LoginBean.userLogged and not empty LoginBean.representations and empty LoginBean.reaRepresentations}">#{m_ont.representing} </h:outputLabel>
+											<h:outputText
+												value="#{LoginBean.representations[1].completeName}" />
+										</span>
+									</ui:fragment>
+									
+									<!-- Mostramos fragmento entrada con rea -->
+									<o:form style="display:inline-block" includeRequestParams="true"
+										includeViewParams="true">
+										<ui:fragment
+											rendered="#{LoginBean.userLogged and not empty LoginBean.representations and not empty LoginBean.reaRepresentations}">
+											<h:outputLabel for="representations" style="color: #221975;"
+												rendered="#{LoginBean.userLogged and not empty LoginBean.representations and not empty LoginBean.reaRepresentations}">#{m_ont.representing}</h:outputLabel>
+											<h:selectOneMenu id="representations"
+												value="#{LoginBean.selectedRepresentation}"
+												converter="#{representedViewConverterBean}"
+												hideNoSelectionOption="false" required="false"
+												class="box-selectform" style="font-size:90%;color:#221975;width: 82%">
+												<f:selectItems value="#{LoginBean.representations}" var="a"
+													itemLabel="#{a.completeName}" itemValue="#{a.rid}" />
+												<f:ajax listener="#{LoginBean.onRepresentationChange}"
+													render="@all" />
+											</h:selectOneMenu>
+											<h:link outcome="readata" rendered="#{not empty LoginBean.reaRepresentations}">
+												<h:graphicImage
+													alt="#{m_ont.closeSession}" title="#{m_app.closeSession}"
+													style="display:inline;vertical-align: text-bottom;" 													
+													library="images" name="icons/info.png" />
+											</h:link>
+										</ui:fragment>
+									</o:form>
+								
+								</div>
+							</div>
+
+							<div id="aheadRight"
+								style="display: inline; float: right; text-align: right; margin: 0; padding: 0">
+
+								<h:form id="aheadRightForm" style="display:inline-block">
+
+
+									<ui:fragment rendered="#{LanguageBean.localeLanguage eq 'gl'}">
+
+										<h:commandLink style="float:left"
+											actionListener="#{LanguageBean.changeLanguage}">
+
+											<f:param name="language" value="es"></f:param>
+
+											<f:param name="forward" value="#{LoginBean.viewId}" />
+
+											<f:param name="queryString"
+												value="#{empty request.queryString ? '' : '?'}#{request.queryString}" />
+
+											<h:outputText value="Ver en Castellano" />
+
+										</h:commandLink>
+
+									</ui:fragment>
+									<ui:fragment rendered="#{LanguageBean.localeLanguage ne 'gl'}">
+
+										<h:commandLink style="float:left"
+											actionListener="#{LanguageBean.changeLanguage}">
+
+											<f:param name="language" value="gl"></f:param>
+
+											<f:param name="forward" value="#{LoginBean.viewId}" />
+
+											<f:param name="queryString"
+												value="#{empty request.queryString ? '' : '?'}#{request.queryString}" />
+
+											<h:outputText value="Ver en Galego" />
+
+										</h:commandLink>
+
+									</ui:fragment>
+
+								</h:form>
+
+								<span style="display: inline-block; overflow: hidden"> |
+									<h:link id="datahoraheader" outcome="officialdatetime">#{m_ont.close_session}</h:link>
+								</span>
+
+							</div>
+
+						</div>
+
+						<h:link outcome="main">
+							<h:graphicImage alt="header" library="images"
+								styleClass="header-banner-full" name="cividas/header.png" />
+							<h:graphicImage alt="header-400" library="images"
+								styleClass="header-banner-tiny" name="cividas/header-400.png" />
+							<h:graphicImage alt="header-800" library="images"
+								styleClass="header-banner-small" name="cividas/header-800.png" />
+						</h:link>
+
+					</div>
+					<!-- Start Interruptions -->
+					<div>
+						<ui:include src="/public/widgets/top/interruptionswidget.xhtml" />
+					</div>
+					<!-- End Interruptions -->
+
+					<!-- Start Header -->
+
+					<div style="margin: 0; padding: 0;">
+						<ui:include src="/templates/header.xhtml" />
+					</div>
+
+					<!-- End Header -->
+				</div>
+				<!-- End Main Head -->
+
+				<ui:insert name="crumbs" />
+
+			</div>
+
+			<div id="ceb-fullBodyWrapper" class="ceb-fullBodyWrapper"
+				style="min-width: 365px; border: 1px solid #d5d5d5; min-height: 0;">
+				<!-- Start Main Body Wrap -->
+				<div id="ceb-mainWrapper" class="ceb-mainWrapper"
+					style="padding-top: 1em;">
+
+					<div class="messagesContainer">
+
+						<!-- <p:messages id="messages" showDetail="true" autoUpdate="true"
+							closable="true" showSummary="false" />-->
+
+					</div>
+
+					<div id="ceb-main" class="ceb-main">
+
+						<ui:include src="/public/widgets/content-column-widget.xhtml" />
+
+						<ui:include src="/public/widgets/omni-column-menu-widget.xhtml" />
+
+					</div>
+
+				</div>
+				<!-- End Main Body Wrap -->
+			</div>
+
+			<!-- Start Footer -->
+			<ui:include src="/templates/footer.xhtml" />
+			<!-- End Footer -->
+
+			<h:outputScript name="js/gsts.js" />
+			<h:outputScript name="js/js.cookie.js" />
+			<h:outputScript name="js/jquery-lang.js" />
+			<h:outputScript name="js/langpack/gl.js" />
+
+			<!-- 		<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> -->
+			<!-- 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-lang-js/3.0.0/jquery-lang.min.js"></script> -->
+
+			<script type="text/javascript">
+		// <![CDATA[
+		
+			// Create language switcher instance
+			var lang = new Lang();
+			
+			// Declare a dynamic language pack
+// 			lang.dynamic('gl', 'js/langpack/gl.json');
+
+			// Initialise the library
+			lang.init({
+				defaultLang: 'ch'
+			});
+		
+			function applyLanguage(lang){
+			
+				console.log("apply language", lang);
+				window.lang.change(lang);
+			
+			}
+			
+		// ]]>
+		</script>
+
+		</h:panelGroup>
+	</h:body>
+
+</f:view>
+
+</html>

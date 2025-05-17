@@ -1,0 +1,85 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<!-- Lista servicios docentes -->
+							<div class="boxes-full" style="width: calc(100% - 13px);margin-left: 10px">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">
+									<div id="wrapper" style="width: 700px">
+										<div style="float:left">
+											#{i18n.titleServiciosDocentesDialog}
+										</div>  
+										<div style="float:right;font-size: 0.7em"> 
+											<p:commandButton update="dlgServicioDocente:servicioDocenteData dlgServicioDocente:servicioDocenteButtons"
+												oncomplete="PF('servicioDocenteDialog').show()"
+												value="#{i18n.anadir}" immediate="true"
+												action="#{quinqueniosController.addServicioDocente}">
+											</p:commandButton>
+										</div>
+									</div>
+									</h2>
+								</div>
+							    <h:panelGroup id="panelDatatableServiciosDocentes"  >
+									<div class="box-100column">
+										<p:dataTable id="serviciosDocentesTable" var="serviciodocente"
+											value="#{quinqueniosController.serviciosDocentes}" emptyMessage="" rendered="#{!empty quinqueniosController.serviciosDocentes}">
+			    
+			    
+			    <p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechaini}" />							
+												</f:facet>						
+												<h:outputText value="#{serviciodocente.fechainidate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+						
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechafin}" />
+												</f:facet>
+												<h:outputText value="#{serviciodocente.fechafindate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+			    
+			    
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_organismo}" />							
+												</f:facet>
+												<h:outputText value="#{serviciodocente.organismo.length() gt 20 ? serviciodocente.organismo.substring(0,17).concat('...') : serviciodocente.organismo}" />
+											</p:column>
+											
+											<p:column style="width:40px">
+																
+												<p:commandLink update="dlgServicioDocente:servicioDocenteData dlgServicioDocente:servicioDocenteButtons"
+													oncomplete="PF('servicioDocenteDialog').show()" immediate="true">
+													<f:setPropertyActionListener value="#{serviciodocente}" target="#{quinqueniosController.selectedServicioDocente}" />											
+														<h:graphicImage alt="ko" library="images" name="icons/magnifying_glass16.png" style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+													
+												<p:commandLink update="panelDatatableServiciosDocentes serviciosDocentesTable" immediate="true" >
+													<f:setPropertyActionListener value="#{serviciodocente}" target="#{quinqueniosController.deletedServicioDocente}" />											
+													<h:graphicImage alt="ko" library="images" name="icons/delete16.png"	style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+						
+											</p:column>			
+										</p:dataTable>									
+									</div>
+									
+								</h:panelGroup>	
+							</div>
+			
+					
+
+</ui:composition>

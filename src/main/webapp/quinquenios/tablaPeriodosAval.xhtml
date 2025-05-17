@@ -1,0 +1,75 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<!-- Lista periodos avaliación-->
+							<div class="boxes-full" style="width: calc(100% - 13px);margin-left: 10px">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">
+									<div id="wrapper" style="width: 700px">
+										<div style="float:left">
+											#{i18n.titlePeriodosAvalDialog}
+										</div>  
+										<div style="float:right;font-size: 0.7em"> 
+											<p:commandButton update="dlgPeriodoAval:periodoAvalData dlgPeriodoAval:periodoAvalButtons"
+												oncomplete="PF('periodoAvalDialog').show()"
+												value="#{i18n.anadir}" immediate="true"
+												action="#{quinqueniosController.addPeriodoAval}">
+											</p:commandButton>
+										</div>
+									</div>
+									</h2>
+								</div>
+							    <h:panelGroup id="panelDatatablePeriodosAval"  >
+									<div class="box-100column">
+										<p:dataTable id="periodosAvalTable" var="periodoaval"
+											value="#{quinqueniosController.periodosAval}" emptyMessage="" rendered="#{!empty quinqueniosController.periodosAval}">
+			    
+			    
+			    <p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechaini}" />							
+												</f:facet>						
+												<h:outputText value="#{periodoaval.fechainidate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+						
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechafin}" />
+												</f:facet>
+												<h:outputText value="#{periodoaval.fechafindate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+											<p:column style="width:40px">				
+												<p:commandLink update="dlgPeriodoAval:periodoAvalData dlgPeriodoAval:periodoAvalButtons"
+													oncomplete="PF('periodoAvalDialog').show()" immediate="true">
+													<f:setPropertyActionListener value="#{periodoaval}" target="#{quinqueniosController.selectedPeriodoAval}" />											
+														<h:graphicImage alt="ko" library="images" name="icons/magnifying_glass16.png" style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+													
+												<p:commandLink update="panelDatatablePeriodosAval periodosAvalTable" immediate="true" >
+													<f:setPropertyActionListener value="#{periodoaval}" target="#{quinqueniosController.deletedPeriodoAval}" />											
+													<h:graphicImage alt="ko" library="images" name="icons/delete16.png"	style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+						
+											</p:column>			
+										</p:dataTable>									
+									</div>
+									
+								</h:panelGroup>	
+							</div>
+			
+					
+
+</ui:composition>

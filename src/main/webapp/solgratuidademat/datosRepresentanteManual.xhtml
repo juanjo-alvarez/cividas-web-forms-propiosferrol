@@ -1,0 +1,368 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<!-- 		REPRESENTANTE MANUAL -->
+	<ui:fragment rendered="#{empty datosSolicitud.idRepreInterested}">
+		<div class="boxes-full personaldata" id="manualRepreFields"
+			style="width: calc(100% - 25px); display: none;">
+
+			<h:panelGroup id="repreTitle">
+				<ui:fragment rendered="#{datosSolicitud.secondinterested eq 1}">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">#{i18n.manualrepresentationdata}</h2>
+					</div>
+				</ui:fragment>
+				<ui:fragment rendered="#{datosSolicitud.secondinterested eq 2}">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">#{i18n.manualrepresenteddatagrat}</h2>
+					</div>
+				</ui:fragment>
+			</h:panelGroup>
+			<h:panelGroup id="secondinterestedpanel">
+				<div class="box-100columnblack">
+					<div class="box-50column">
+						<fieldset>
+
+							<p:outputLabel for="dnirepresentante"
+								value="#{i18n.dnirepresentante}" class="box-texttitle" />
+
+							<p:inputText type="text" class="box-textform"
+								id="dnirepresentante"
+								value="#{datosSolicitud.model.interesteddata[1].identificationnumber}"
+								required="#{datosSolicitud.secondinterested eq 1 or datosSolicitud.secondinterested eq 2}"
+								style="margin-left: 10px;"
+								requiredMessage="#{i18n.dnirepresentante} - #{i18n.mandatory_field}"
+								readonly="false" maxlength="9">
+								<f:validator
+									validatorId="com.cividas.customforms.webapp.validators.dniCifValidator" />
+							</p:inputText>
+
+						</fieldset>
+					</div>
+
+					<div class="box-50column">
+						<fieldset>
+							<p:outputLabel for="nombrerepresentante"
+								value="#{i18n.nombrerepresentante}" class="box-texttitle" />
+
+							<p:inputText type="text" class="box-textform"
+								id="nombrerepresentante" style="margin-left: 10px;"
+								value="#{datosSolicitud.model.interesteddata[1].name}"
+								required="#{datosSolicitud.secondinterested eq 1 or datosSolicitud.secondinterested eq 2}"
+								requiredMessage="#{i18n.nombrerepresentante} - #{i18n.mandatory_field}"
+								readonly="false" maxlength="25" />
+						</fieldset>
+					</div>
+				</div>
+
+				<div class="box-100columnblack">
+					<div class="box-50column">
+						<fieldset>
+							<p:outputLabel for="apellido1representante"
+								value="#{i18n.apellido1representante}"
+								class="box-texttitleblack" />
+							<p:inputText type="text" class="box-textform"
+								id="apellido1representante"
+								value="#{datosSolicitud.model.interesteddata[1].surname1}"
+							 	required="#{datosSolicitud.secondinterested eq 1 or datosSolicitud.secondinterested eq 2}"
+							 	requiredMessage="#{i18n.apellido1representante} - #{i18n.mandatory_field}"
+								style="margin-left: 10px;" readonly="false" maxlength="25" />
+
+						</fieldset>
+					</div>
+
+					<div class="box-50column">
+						<fieldset>
+
+							<p:outputLabel for="apellido2representante"
+								value="#{i18n.apellido2representante}"
+								style="margin-left: 6px; color:black" class="box-texttitle" />
+							<p:inputText type="text" class="box-textform"
+								id="apellido2representante" style="margin-left: 10px;"
+								value="#{datosSolicitud.model.interesteddata[1].surname2}"
+								readonly="false" maxlength="25" />
+						</fieldset>
+					</div>
+				</div>
+
+
+				<!--  dirección representante manual-->
+				<h:panelGroup id="manualaddressRepreFields">
+
+					<div class="box-50column">
+						<div class="box-30column">
+
+							<fieldset>
+
+								<p style="margin-top: 0;" class="box-texttitle">
+									#{i18n.roadtype}</p>
+
+								<h:selectOneMenu id="manualroadtypeRepre"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.roadtypecode}"
+									hideNoSelectionOption="false" class="box-selectform">
+
+									<f:selectItems value="#{datosSolicitud.roadtypes.entrySet()}"
+										var="entry" itemLabel="#{entry.value}"
+										itemValue="#{entry.key}" />
+
+								</h:selectOneMenu>
+
+							</fieldset>
+
+						</div>
+
+						<div class="box-70column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualaddressRepre" value="#{i18n.address}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualaddressRepre" name="address" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.address}"
+									required="#{datosSolicitud.secondinterested eq 1 or datosSolicitud.secondinterested eq 2}"
+									requiredMessage="#{i18n.address} - #{i18n.mandatory_field}"
+									maxlength="75" />
+
+							</fieldset>
+
+						</div>
+					</div>
+					<div class="box-50column">
+						<div class="box-20column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualnumberRepre" value="#{i18n.number}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualnumberRepre" name="number" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.buildingnumber}"
+									maxlength="4" />
+
+							</fieldset>
+
+						</div>
+
+						<div class="box-20column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualletterRepre" value="#{i18n.letter}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualletterRepre" name="letter" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.letter}"
+									maxlength="4" />
+
+							</fieldset>
+
+						</div>
+
+						<div class="box-20column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualstairRepre" value="#{i18n.stair}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualstairRepre" name="stair" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.stair}"
+									maxlength="5" />
+
+							</fieldset>
+
+						</div>
+
+						<div class="box-20column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualfloorRepre" value="#{i18n.floor}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualfloorRepre" name="floor" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.floor}"
+									maxlength="25" />
+
+							</fieldset>
+
+						</div>
+
+						<div class="box-20column">
+
+							<fieldset>
+
+								<div>
+
+									<p:outputLabel for="manualdoorRepre" value="#{i18n.door}"
+										class="box-texttitle" />
+
+								</div>
+
+								<h:inputText id="manualdoorRepre" name="door" type="text"
+									class="box-textform"
+									value="#{datosSolicitud.model.interesteddata[1].interestedaddress.door}"
+									maxlength="4" />
+
+							</fieldset>
+
+						</div>
+					</div>
+					<div class="box-70column">
+
+						<fieldset>
+
+							<div>
+
+								<p:outputLabel for="manualfreetownRepre"
+									value="#{i18n.freetown}" class="box-texttitle" />
+
+							</div>
+
+							<h:inputText id="manualfreetownRepre" name="freetown" type="text"
+								class="box-textform"
+								value="#{datosSolicitud.model.interesteddata[1].interestedaddress.freetown}"
+								maxlength="75" />
+
+						</fieldset>
+
+					</div>
+
+					<div class="box-30column">
+
+						<fieldset>
+
+							<div>
+
+								<p:outputLabel for="manualpostalcodeRepre"
+									value="#{i18n.postal_code_abbrev}" class="box-texttitle" />
+
+							</div>
+
+							<h:inputText id="manualpostalcodeRepre" name="postalcode"
+								type="text" class="box-textform"
+								value="#{datosSolicitud.model.interesteddata[1].interestedaddress.postalcode}"
+								maxlength="12" />
+
+						</fieldset>
+
+					</div>
+
+					<div class="box-30column">
+
+						<fieldset>
+
+							<p class="box-texttitle">#{i18n.country}</p>
+
+							<h:selectOneMenu id="manualcountryRepre"
+								value="#{datosSolicitud.model.interesteddata[1].interestedaddress.idcountry}"
+								hideNoSelectionOption="false" converter="javax.faces.Integer"
+								class="box-selectform">
+
+								<f:selectItems value="#{datosSolicitud.countries.entrySet()}"
+									var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+								<f:ajax listener="#{datosSolicitud.onmanualCountryRepreChange}"
+									render="manualprovinceRepre manualtownRepre" />
+
+							</h:selectOneMenu>
+
+						</fieldset>
+
+					</div>
+
+					<div class="box-30column">
+
+						<fieldset>
+
+							<p class="box-texttitle">#{i18n.province}</p>
+
+							<h:selectOneMenu id="manualprovinceRepre"
+								value="#{datosSolicitud.model.interesteddata[1].interestedaddress.provincecode}"
+								hideNoSelectionOption="false" class="box-selectform">
+
+								<f:selectItem itemLabel="#{i18n.select_province}"
+									noSelectionOption="true" />
+
+								<f:selectItems
+									value="#{datosSolicitud.repremanualProvinces.entrySet()}"
+									var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+								<f:ajax listener="#{datosSolicitud.onmanualProvinceRepreChange}"
+									render="manualtownRepre" />
+
+							</h:selectOneMenu>
+
+						</fieldset>
+
+					</div>
+
+					<div class="box-40column">
+
+						<fieldset>
+
+							<p class="box-texttitle">#{i18n.town}</p>
+
+							<h:selectOneMenu id="manualtownRepre"
+								value="#{datosSolicitud.model.interesteddata[1].interestedaddress.towncode}"
+								hideNoSelectionOption="false" class="box-selectform">
+
+								<f:selectItem itemLabel="#{i18n.select_town}"
+									noSelectionOption="true" />
+
+								<f:selectItems
+									value="#{datosSolicitud.repremanualTowns.entrySet()}"
+									var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+							</h:selectOneMenu>
+						</fieldset>
+					</div>
+				</h:panelGroup>
+
+
+
+
+
+
+
+
+			</h:panelGroup>
+		</div>
+
+	</ui:fragment>
+	<!-- FIN		REPRESENTANTE MANUAL-->
+
+
+
+</ui:composition>

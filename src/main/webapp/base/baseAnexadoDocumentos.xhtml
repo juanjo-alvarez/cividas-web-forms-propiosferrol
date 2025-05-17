@@ -1,0 +1,257 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:defaultCommand target="dummy"/>
+	<p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+	<p:inputText type="hidden" id="filesBase64Signed" value="#{datosSolicitud.filesBase64Signed}" />
+	<p:inputText type="hidden" id="resumeBase64Signed" value="#{datosSolicitud.resumeBase64Signed}" />
+	<div class="box-100column">
+		<div  style="width: calc(100% - 25px)">
+			<div >
+				<h2 style="font-size: 1.3em;">#{i18n.tittledocumentationrequirements}</h2>
+			</div>
+			<div id="relatedforms-box" class="box-100column" style="width: 98%;">
+				<ui:fragment
+					rendered="#{not empty datosSolicitud.fileMaxSize}">
+						<h:outputText style="font-size: 1.1em;color: #221975;" value="#{i18n.info_attachmentMaxSizeInMB} #{datosSolicitud.fileMaxSize} MB. " /> 
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{not empty datosSolicitud.fileExtension}">
+					<h:outputText style="font-size: 1.1em;color: #221975;" value="#{i18n.info_attachmentValidExtensions} #{datosSolicitud.fileExtension}. " />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{not empty datosSolicitud.fileMaxNumber}">
+					<h:outputText style="font-size: 1.1em;color: #221975;" value="#{i18n.info_fileLimit} #{datosSolicitud.fileMaxNumber}." />
+				</ui:fragment>
+			</div>
+		</div>
+		<ui:fragment
+			rendered="#{datosSolicitud.documentTypesMandatorySize > 0}">
+		
+				<div class="boxes-full" style="width: 97%;">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">#{i18n.mandatorydocuments}</h2>
+					</div>
+					<div class="boxes-full" style="width: 90%;">
+						<p:inputText type="hidden" id="mandatoryValidation" value="#{datosSolicitud.mandatoryFilesUploaded}" required="true" requiredMessage="#{i18n.mandatorydocumentsmessage}"/>
+					<ui:repeat value="#{datosSolicitud.documentTypesMandatory}"
+						var="item">
+						<fieldset class="filetypeUploadButton"
+							style="margin: 0px 15px !important; display: contents">
+							<div id="text_#{item.iddocumentmastertype}"
+								style="font-size: 1em; float: left; padding-top: 10px; margin: 15px 10px 0px 15px; width: 90%">
+								<b>#{item.documentTypeName}</b>
+							</div>
+							<p:fileUpload listener="#{datosSolicitud.handleFileUpload}"
+								mode="advanced" label="" dragDropSupport="false" multiple="false"
+								update="registryFileListMandatory mandatoryValidation filesB64:filesBase64 confirm"
+								oncomplete="setDocumentationBoxesStyle();sendHeight();"
+								onerror="setDocumentationBoxesStyle()" auto="true">
+								<f:attribute name="iddocumentmastertype"
+									value="#{item.iddocumentmastertype}" />
+								<f:attribute name="documentTypeName"
+									value="#{item.documentTypeName}" />
+								<f:attribute name="validtype" value="obligatorio" />
+								<f:attribute name="documenttypeid"
+									value="#{item.iddocumentmastertype}" />
+							</p:fileUpload>
+						</fieldset>
+						<div class="file-box-full datalistdocumentation">
+							<p:dataList id="registryFileListMandatory"
+								class="form-attachment filetyperow"
+								value="#{datosSolicitud.getDocumentByType(item.iddocumentmastertype)}"
+								var="mandatoryFile" emptyMessage="">
+
+								<p:inputText type="text" class="form-attachmentdatadesc"
+									value="#{mandatoryFile.attachmentdatadesc}" required="no"
+									p:placeholder="#{i18n.attachmentdatadesctip}">
+									<p:ajax event="keyup" process="@this" />
+								</p:inputText>
+											
+												#{mandatoryFile.file.fileName},
+											<h:outputText value="#{mandatoryFile.file.size/1024}">
+									<f:convertNumber type="number" groupingUsed="true"
+										minFractionDigits="0" pattern="#0" />
+								</h:outputText> KB
+									<p:commandButton value=""
+									styleClass="ceb-removeFileFromListButton"
+									action="#{datosSolicitud.removeFile}"
+									update="registryFileListMandatory mandatoryValidation confirm"
+									icon="ui-icon-close" immediate="true"
+									oncomplete="setDocumentationBoxesStyle();sendHeight();deletevalidation();"
+									onclick="deletefield(this)">
+									<f:setPropertyActionListener value="#{mandatoryFile.tmpId}"
+										target="#{datosSolicitud.tmpFileIdToDelete}" />
+								</p:commandButton>
+							</p:dataList>
+						</div>
+						<div class="clear"></div>
+					</ui:repeat>
+					<p:messages for="fileupload_obligatorio" showIcon="false"
+						style="display: inline-block;">
+						<p:autoUpdate />
+					</p:messages>
+				</div>
+				</div>
+
+		</ui:fragment>
+
+		<ui:fragment
+			rendered="#{datosSolicitud.documentTypesOptionalSize > 0}">
+			<div class="boxes-full" style="width: 97%;">
+				<div class="box-title">
+					<h2 style="font-size: 1.3em">#{i18n.optionaldocuments}</h2>
+				</div>
+				<div class="boxes-full" style="width: 90%;">
+					<ui:repeat value="#{datosSolicitud.documentTypesOptional}"
+						var="item">
+						<fieldset class="filetypeUploadButton"
+							style="margin: 0px 15px !important; display: contents;">
+							<div id="text_#{item.iddocumentmastertype}"
+								style="font-size: 1em; float: left; padding-top: 10px; margin: 15px 10px 0px 15px; width: 90%">
+								<b>#{item.documentTypeName}</b>
+							</div>
+							<p:fileUpload listener="#{datosSolicitud.handleFileUpload}"
+								mode="advanced" label="" dragDropSupport="false" multiple="false"
+								update="registryFileListOptional filesB64:filesBase64 confirm"
+								oncomplete="setDocumentationBoxesStyle();sendHeight();"
+								onerror="setDocumentationBoxesStyle()" auto="true">
+								<f:attribute name="iddocumentmastertype"
+									value="#{item.iddocumentmastertype}" />
+								<f:attribute name="documentTypeName"
+									value="#{item.documentTypeName}" />
+								<f:attribute name="validtype" value="opcional" />
+								<f:attribute name="documenttypeid"
+									value="#{item.iddocumentmastertype}" />
+							</p:fileUpload>
+
+						</fieldset>
+						<div class="file-box-full datalistdocumentation">
+							<p:dataList id="registryFileListOptional"
+								class="form-attachment filetyperow"
+								value="#{datosSolicitud.getDocumentByType(item.iddocumentmastertype)}"
+								var="optionalFile" emptyMessage="">
+
+								<p:inputText type="text" class="form-attachmentdatadesc"
+									value="#{optionalFile.attachmentdatadesc}" required="no"
+									p:placeholder="#{i18n.attachmentdatadesctip}">
+									<p:ajax event="keyup" process="@this" />
+								</p:inputText>
+										
+											#{optionalFile.file.fileName},
+											<h:outputText value="#{optionalFile.file.size/1024}">
+									<f:convertNumber type="number" groupingUsed="true"
+										minFractionDigits="0" pattern="#0" />
+								</h:outputText> KB
+								<p:commandButton value=""
+									styleClass="ceb-removeFileFromListButton"
+									action="#{datosSolicitud.removeFile}"
+									update="registryFileListOptional confirm" icon="ui-icon-close"
+									immediate="true"
+									oncomplete="setDocumentationBoxesStyle();sendHeight();"
+									onclick="deletefield(this)">
+									<f:setPropertyActionListener value="#{optionalFile.tmpId}"
+										target="#{datosSolicitud.tmpFileIdToDelete}" />
+
+								</p:commandButton>
+							</p:dataList>
+						</div>
+						<div class="clear"></div>
+					</ui:repeat>
+					<p:messages for="fileupload_opcional" showIcon="false"
+						style="display: inline-block;">
+						<p:autoUpdate />
+					</p:messages>
+				</div>
+			</div>
+		</ui:fragment>
+		<div class="boxes-full" style="width: 97%;">
+			<div class="box-title">
+				<ui:fragment rendered="#{datosSolicitud.documentTypesMandatorySize eq 0 and datosSolicitud.documentTypesOptionalSize eq 0}">
+					<h2 style="font-size: 1.3em">#{i18n.documentation}</h2>
+				</ui:fragment>
+				<ui:fragment rendered="#{datosSolicitud.documentTypesMandatorySize > 0 or datosSolicitud.documentTypesOptionalSize > 0}">
+					<h2 style="font-size: 1.3em">#{i18n.othersdocuments}</h2>
+				</ui:fragment>
+			</div>
+			<div class="boxes-full" style="width: 97%; margin-left: 10px">
+				<fieldset class="filetypeUploadButton"  style="margin: 0px 15px!important;display: contents;">
+					<div id="text_otros"  style="font-size: 1em;float: left;padding-top: 10px;margin: 15px 10px 0px 15px;width: 90%">
+						<ui:fragment rendered="#{datosSolicitud.documentTypesMandatorySize eq 0 and datosSolicitud.documentTypesOptionalSize eq 0}">
+							<b>#{i18n.helpuploaddocuments}</b>
+						</ui:fragment>
+						<ui:fragment rendered="#{datosSolicitud.documentTypesMandatorySize > 0 or datosSolicitud.documentTypesOptionalSize > 0}">
+							<b>#{i18n.helpuploadotherdocuments}</b>
+						</ui:fragment>
+					</div>
+					<p:fileUpload
+						listener="#{datosSolicitud.handleFileUpload}"
+						mode="advanced" label=""
+						dragDropSupport="false" multiple="false" update="registryFileListOther filesB64:filesBase64 confirm"
+						oncomplete="setDocumentationBoxesStyle();sendHeight();"
+						onerror="setDocumentationBoxesStyle()" auto="true" />
+				</fieldset>
+				<div class="file-box-full datalistdocumentation">
+					<p:dataList id="registryFileListOther" class="form-attachment"
+						value="#{datosSolicitud.uploadedFilesOther}" var="otherfile"
+						emptyMessage="">
+
+						<p:inputText type="text" class="form-attachmentdatadesc"
+							value="#{otherfile.attachmentdatadesc}" required="no"
+							p:placeholder="#{i18n.attachmentdatadesctip}">
+							<p:ajax event="keyup" process="@this" />
+						</p:inputText>
+									
+						#{otherfile.file.fileName},
+						<h:outputText value="#{otherfile.file.size/1024}">
+							<f:convertNumber type="number" groupingUsed="true"
+								minFractionDigits="0" pattern="#0" />
+						</h:outputText> KB
+						<p:commandButton value=""
+							styleClass="ceb-removeFileFromListButton"
+							action="#{datosSolicitud.removeFile}"
+							update="registryFileListOther confirm" icon="ui-icon-close"
+							immediate="true"
+							oncomplete="setDocumentationBoxesStyle();sendHeight();"
+							onclick="deletefield(this)">
+							<f:setPropertyActionListener value="#{otherfile.tmpId}"
+								target="#{datosSolicitud.tmpFileIdToDelete}" />
+						</p:commandButton>
+					</p:dataList>
+					<p:messages for="fileupload" showIcon="false"
+						style="display: inline-block;">
+						<p:autoUpdate />
+					</p:messages>
+				</div>
+			</div>
+		</div>
+		<ui:fragment>
+			<div id="divFinalList" class="boxes-full" style="text-align: left; width: 97% !important; display: none" >
+				<div >
+					<h2 class="list-title">Lista
+					</h2>
+				</div>
+
+				<div  style="margin-top: 10px">
+
+					<p:dataTable id="finalList" var="itemList"	value="#{datosSolicitud.uploadedFiles}"	widgetVar="finalList" size="small">
+
+						<p:column headerText="#{i18n.document_name}" style="width:40%" filterStyle="display:none;" priority="1">
+							<h:outputText value="#{itemList.file.fileName}" />
+						</p:column>
+					
+						<p:column headerText="Hash" style="width:60%" filterStyle="display:none;" priority="2">
+							<h:outputText value="#{itemList.hash}" />
+						</p:column>
+					
+					</p:dataTable>
+	   
+				</div>
+			</div>
+			
+		</ui:fragment>
+	</div>
+</ui:composition>

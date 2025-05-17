@@ -1,0 +1,810 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<script type="text/javascript">
+
+
+					$(document).ready(function() {
+
+						$('#addressFields').css("display", "none");
+
+						fullAddressChange();
+						fullRepreAddressChange();
+						fullmanualRepreAddressChange();
+
+					});
+
+
+
+
+					function setDocumentationBoxesStyle(){
+						if ($('.ceb-removeFileFromListButton').length > 0){
+							$('#empty-box').css('display', 'none');
+							$('#filelist-box').css('display', 'block');
+							//$('#relatedforms-box').css('margin-left', '0');
+						} else {
+							$('#filelist-box').css('display', 'none');
+							$('#empty-box').css('display', 'block');
+							//$('#relatedforms-box').css('margin-left', '10px');
+						}
+					}
+
+
+
+				</script>
+
+
+
+	<div class="box-100column">
+							<div id="interesadoprincipal" class="boxes-full" style="width: calc(100% - 25px);">
+<h:panelGroup id="principalTitle">
+				<ui:fragment rendered="#{datosSolicitud.secondinterested ne 2}">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">#{i18n.principalinteresteddatagrat}</h2>
+					</div>
+				</ui:fragment>
+				<ui:fragment rendered="#{datosSolicitud.secondinterested eq 2}">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">#{i18n.reprensentationdatagrat}</h2>
+					</div>
+				</ui:fragment>
+			</h:panelGroup>
+
+						<p:panelGrid styleClass="cer-receiptInfoContainer" columns="1"
+							style="margin-left:10px;margin-right:auto">
+							<p:panelGrid id="taxPayerInfo"
+								styleClass="cer-receiptInfoGroupContainer cer-receiptInfoBorderContainer"
+								style="width:100%;margin:auto;border-top:none !important;border-bottom:none !important;border: none; margin-top: 1em;"
+								cellpadding="5">
+								<p:row rendered="#{not empty datosSolicitud.model.interesteddata[0].name}"
+									style="border-left: none !important;border-right:none !important">
+									<p:column styleClass="cer-twoColKey">
+										<h:outputText style="font-weight:bold;" value="#{i18n.name}:" />
+									</p:column>
+									<p:column style="text-align:left !important">
+										<h:outputText value="#{datosSolicitud.model.interesteddata[0].name}" />
+							<h:outputText value=" " />
+										<h:outputText value="#{datosSolicitud.model.interesteddata[0].surname1}" />
+							<h:outputText value=" " />
+										<h:outputText value="#{datosSolicitud.model.interesteddata[0].surname2}" />
+									</p:column>
+								</p:row>
+								<p:row
+									rendered="#{not empty datosSolicitud.model.interesteddata[0].identificationnumber}"
+									style="border-left: none !important;border-right:none !important">
+									<p:column styleClass="cer-twoColKey">
+										<h:outputText style="font-weight:bold;"
+											value="#{i18n.identificationnumber}:" />
+									</p:column>
+									<p:column style="text-align:left !important">
+										<h:outputText
+											value="#{datosSolicitud.model.interesteddata[0].identificationnumber}" />
+									</p:column>
+								</p:row>
+								<p:row
+									style="border-left: none !important;border-right:none !important">
+									<p:column styleClass="cer-twoColKey" style="vertical-align: -moz-middle-with-baseline !important" >
+										<h:outputText style="font-weight:bold;"
+											value="#{i18n.telephone}:" /> *
+									</p:column>
+									<p:column style="text-align:left !important" >
+										<p:inputText class="box-textform" style="background: #f3f4f8;margin-top:0px !important;margin-left:0px !important;width: auto !important;"
+											value="#{datosSolicitud.model.interesteddata[0].telephone}" required="true" requiredMessage="#{i18n.mandatory_telephone}"/>	
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:panelGrid>
+
+						<h:panelGroup layout="block" id="individualAddressInfo"
+							styleClass="boxes-padding fullpadding">
+
+							<div class="box-100column">
+
+								<div>
+
+									<p:outputLabel for="fulladdress"
+										value="#{i18n.select_address}" class="box-texttitle" />
+
+								</div>
+
+								<div>
+
+									<h:selectOneMenu id="fulladdress" value="#{datosSolicitud.model.interesteddata[0].interestedaddress.idindividualsmasteraddress}"
+										required="true"
+										requiredMessage="#{i18n.select_address} #{i18n.mandatory_field}"
+										converter="javax.faces.Integer" class="box-selectform">
+										<f:selectItems value="#{datosSolicitud.individualAddress.entrySet()}"
+											var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+										<f:selectItem itemValue="0" itemLabel="#{i18n.add_new_address_combo_item}" noSelectionOption="false" />
+										<f:ajax listener="#{datosSolicitud.onAddressChange}"
+											render="addressFields" />
+
+									</h:selectOneMenu>
+
+								</div>
+							</div>
+
+							<h:panelGroup id="addressFields" style="display:none;">
+								<script type="text/javascript">fullAddressChange();</script>
+								<div class="box-50column">
+									<div class="box-30column">
+
+										<fieldset>
+
+											<p style="margin-top: 0;" class="box-texttitle">
+
+												#{i18n.roadtype}</p>
+
+											<h:selectOneMenu id="roadtype"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.roadtypecode}"
+												hideNoSelectionOption="false"
+												class="box-selectform"
+												disabled="#{!datosSolicitud.enableAddressFields}">
+
+												<f:selectItems value="#{datosSolicitud.roadtypes.entrySet()}"
+											var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}"/>
+
+											</h:selectOneMenu>
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-70column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="address" value="#{i18n.address}"
+													class="box-texttitle" id="addresslabel"/>
+
+											</div>
+
+											<h:inputText id="address" name="address" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.address}"
+												disabled="#{!datosSolicitud.enableAddressFields}"
+												required="true"
+												requiredMessage="#{i18n.address} #{i18n.mandatory_field}"
+												maxlength="75" />
+
+										</fieldset>
+
+									</div>
+								</div>
+								<div class="box-50column">
+									<div class="box-20column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="number" value="#{i18n.number}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="number" name="number" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.buildingnumber}"
+												disabled="#{!datosSolicitud.enableAddressFields}" maxlength="4" />
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-20column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="letter" value="#{i18n.letter}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="letter" name="letter" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.letter}"
+												disabled="#{!datosSolicitud.enableAddressFields}" maxlength="4" />
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-20column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="stair" value="#{i18n.stair}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="stair" name="stair" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.stair}"
+												disabled="#{!datosSolicitud.enableAddressFields}" maxlength="5"/>
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-20column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="floor" value="#{i18n.floor}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="floor" name="floor" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.floor}"
+												disabled="#{!datosSolicitud.enableAddressFields}" maxlength="25"/>
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-20column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="door" value="#{i18n.door}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="door" name="door" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[0].interestedaddress.door}"
+												disabled="#{!datosSolicitud.enableAddressFields}" maxlength="4"/>
+
+										</fieldset>
+
+									</div>
+								</div>
+								<div class="box-70column">
+
+									<fieldset>
+
+										<div>
+
+											<p:outputLabel for="freetown" value="#{i18n.freetown}"
+												class="box-texttitle" />
+
+										</div>
+
+										<h:inputText id="freetown" name="freetown" type="text"
+											class="box-textform"
+											value="#{datosSolicitud.model.interesteddata[0].interestedaddress.freetown}"
+											disabled="#{!datosSolicitud.enableAddressFields}" maxlength="75" />
+
+									</fieldset>
+
+								</div>
+
+								<div class="box-30column">
+
+									<fieldset>
+
+										<div>
+
+											<p:outputLabel for="postalcode"
+												value="#{i18n.postal_code_abbrev}" class="box-texttitle" />
+
+										</div>
+
+										<h:inputText id="postalcode" name="postalcode" type="text"
+											class="box-textform"
+											value="#{datosSolicitud.model.interesteddata[0].interestedaddress.postalcode}"
+											disabled="#{!datosSolicitud.enableAddressFields}" maxlength="12"/>
+
+									</fieldset>
+
+								</div>
+
+								<div class="box-30column">
+
+									<fieldset>
+
+										<p class="box-texttitle">#{i18n.country}</p>
+
+										<h:selectOneMenu id="country"
+											value="#{datosSolicitud.model.interesteddata[0].interestedaddress.idcountry}"
+											hideNoSelectionOption="false"
+											converter="javax.faces.Integer"
+											class="box-selectform"
+											disabled="#{!datosSolicitud.enableAddressFields}">
+
+											<f:selectItems value="#{datosSolicitud.countries.entrySet()}"
+											var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+											<f:ajax listener="#{datosSolicitud.onCountryChange}"
+												render="province town" />
+
+										</h:selectOneMenu>
+
+									</fieldset>
+
+								</div>
+
+								<div class="box-30column">
+
+									<fieldset>
+
+										<p class="box-texttitle">#{i18n.province}</p>
+
+										<h:selectOneMenu id="province"
+											value="#{datosSolicitud.model.interesteddata[0].interestedaddress.provincecode}"
+											hideNoSelectionOption="false"
+
+											class="box-selectform"
+											disabled="#{!datosSolicitud.enableAddressFields}">
+
+											<f:selectItem itemLabel="#{i18n.select_province}"
+												noSelectionOption="true" />
+
+											<f:selectItems value="#{datosSolicitud.provinces.entrySet()}"
+											var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+											<f:ajax listener="#{datosSolicitud.onProvinceChange}"
+												render="town" />
+
+										</h:selectOneMenu>
+
+									</fieldset>
+
+								</div>
+
+								<div class="box-40column">
+
+									<fieldset>
+
+										<p class="box-texttitle">#{i18n.town}</p>
+
+										<h:selectOneMenu id="town"
+											value="#{datosSolicitud.model.interesteddata[0].interestedaddress.towncode}"
+											hideNoSelectionOption="false"
+											 class="box-selectform"
+											disabled="#{!datosSolicitud.enableAddressFields}">
+
+											<f:selectItem itemLabel="#{i18n.select_town}"
+												noSelectionOption="true" />
+
+											<f:selectItems value="#{datosSolicitud.towns.entrySet()}"
+											var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+										</h:selectOneMenu>
+
+									</fieldset>
+
+								</div>
+
+							</h:panelGroup>
+
+						</h:panelGroup>
+
+						<div style="margin-left:12px !important;text-align:left !important">
+							<p:selectBooleanCheckbox
+								value="#{datosSolicitud.saveContactData}"
+								itemLabel="#{i18n.savecontactdata}" />
+						</div>
+</div>
+</div>
+
+
+	<!-- 		REPRESENTANTE DE REA O CERTIFICADO -->
+						<ui:fragment rendered="#{not empty datosSolicitud.idRepreInterested}">
+						<div class="boxes-full personaldata" style="width: calc(100% - 25px);">
+
+							<div class="box-title">
+
+								<h2 style="font-size: 1.3em">#{i18n.representationdata}</h2>
+
+							</div>
+
+							<p:panelGrid styleClass="cer-receiptInfoContainer" columns="1"
+								style="margin-left:10px;margin-right:auto">
+								<p:panelGrid id="taxPayerInfoRepre"
+									styleClass="cer-receiptInfoGroupContainer cer-receiptInfoBorderContainer"
+									style="width:100%;margin:auto;border-top:none !important;border-bottom:none !important;border: none; margin-top: 1em;"
+									cellpadding="5">
+									<p:row rendered="#{not empty datosSolicitud.model.interesteddata[1].name}"
+										style="border-left: none !important;border-right:none !important">
+										<p:column styleClass="cer-twoColKey">
+											<h:outputText style="font-weight:bold;"
+												value="#{i18n.name}:" />
+										</p:column>
+										<p:column style="text-align:left !important">
+											<h:outputText value="#{datosSolicitud.model.interesteddata[1].name}" />
+							<h:outputText value=" " />
+											<h:outputText value="#{datosSolicitud.model.interesteddata[1].surname1}" />
+							<h:outputText value=" " />
+											<h:outputText value="#{datosSolicitud.model.interesteddata[1].surname2}" />
+										</p:column>
+									</p:row>
+									<p:row
+										rendered="#{not empty datosSolicitud.model.interesteddata[1].identificationnumber}"
+										style="border-left: none !important;border-right:none !important">
+										<p:column styleClass="cer-twoColKey">
+											<h:outputText style="font-weight:bold;"
+												value="#{i18n.identificationnumber}:" />
+										</p:column>
+										<p:column style="text-align:left !important">
+											<h:outputText
+												value="#{datosSolicitud.model.interesteddata[1].identificationnumber}" />
+										</p:column>
+									</p:row>
+									<p:row
+										style="border-left: none !important;border-right:none !important">
+										<p:column styleClass="cer-twoColKey">
+											<h:outputText style="font-weight:bold;"
+												value="#{i18n.telephone}:" />
+										</p:column>
+										<p:column style="text-align:left !important">
+											<p:inputText class="box-textform"
+												style="background: #f3f4f8;margin-top:0px !important;margin-left:0px !important;width: auto !important;"
+												value="#{datosSolicitud.model.interesteddata[1].telephone}" required="true" requiredMessage="#{i18.mandatory_telephone}"/>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:panelGrid>
+							<h:panelGroup layout="block" id="individualRepreAddressInfo"
+								styleClass="boxes-padding fullpadding"
+								rendered="#{datosSolicitud.idRepreInterested ne null}">
+
+								<div class="box-100column">
+
+									<div>
+
+										<p:outputLabel for="fullRepreaddress"
+											value="#{i18n.select_address}" class="box-texttitle" />
+
+									</div>
+
+									<div>
+
+										<h:selectOneMenu id="fullRepreaddress"
+											value="#{datosSolicitud.model.interesteddata[1].interestedaddress.idindividualsmasteraddress}"
+											hideNoSelectionOption="false" required="true"
+											converter="javax.faces.Integer"
+											requiredMessage="#{i18n.select_address} #{i18n.mandatory_field}"
+											class="box-selectform">
+
+											<f:selectItems
+												value="#{datosSolicitud.individualRepreAddress.entrySet()}"
+												var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+											<f:selectItem itemValue="0" itemLabel="#{i18n.add_new_address_combo_item}" noSelectionOption="false" />
+											<f:ajax
+												listener="#{datosSolicitud.onRepreAddressChange}"
+												render="addressRepreFields" />
+
+										</h:selectOneMenu>
+
+									</div>
+								</div>
+
+								<h:panelGroup id="addressRepreFields" style="display:none;">
+									<script type="text/javascript">fullRepreAddressChange();</script>
+									<div class="box-50column">
+										<div class="box-30column">
+
+											<fieldset>
+
+												<p style="margin-top: 0;" class="box-texttitle">
+
+													#{i18n.roadtype}</p>
+
+												<h:selectOneMenu id="roadtypeRepre"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.roadtypecode}"
+													hideNoSelectionOption="false"
+													class="box-selectform"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}">
+
+													<f:selectItems value="#{datosSolicitud.roadtypes.entrySet()}"
+														var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}"/>
+
+												</h:selectOneMenu>
+
+											</fieldset>
+
+										</div>
+
+										<div class="box-70column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="addressRepre" value="#{i18n.address}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="addressRepre" name="address" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.address}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													required="true"
+													requiredMessage="#{i18n.address} #{i18n.mandatory_field}" 
+													maxlength="75" />
+
+											</fieldset>
+
+										</div>
+									</div>
+									<div class="box-50column">
+										<div class="box-20column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="numberRepre" value="#{i18n.number}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="numberRepre" name="number" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.buildingnumber}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													maxlength="4" />
+
+											</fieldset>
+
+										</div>
+
+										<div class="box-20column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="letterRepre" value="#{i18n.letter}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="letterRepre" name="letter" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.letter}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													maxlength="4" />
+
+											</fieldset>
+
+										</div>
+
+										<div class="box-20column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="stairRepre" value="#{i18n.stair}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="stairRepre" name="stair" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.stair}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													maxlength="5" />
+
+											</fieldset>
+
+										</div>
+
+										<div class="box-20column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="floorRepre" value="#{i18n.floor}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="floorRepre" name="floor" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.floor}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													maxlength="25" />
+
+											</fieldset>
+
+										</div>
+
+										<div class="box-20column">
+
+											<fieldset>
+
+												<div>
+
+													<p:outputLabel for="doorRepre" value="#{i18n.door}"
+														class="box-texttitle" />
+
+												</div>
+
+												<h:inputText id="doorRepre" name="door" type="text"
+													class="box-textform"
+													value="#{datosSolicitud.model.interesteddata[1].interestedaddress.door}"
+													disabled="#{!datosSolicitud.enableRepreAddressFields}"
+													maxlength="4" />
+
+											</fieldset>
+
+										</div>
+									</div>
+									<div class="box-70column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="freetownRepre" value="#{i18n.freetown}"
+													class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="freetownRepre" name="freetown" type="text"
+												class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[1].interestedaddress.freetown}"
+												disabled="#{!datosSolicitud.enableRepreAddressFields}"
+												maxlength="75" />
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-30column">
+
+										<fieldset>
+
+											<div>
+
+												<p:outputLabel for="postalcodeRepre"
+													value="#{i18n.postal_code_abbrev}" class="box-texttitle" />
+
+											</div>
+
+											<h:inputText id="postalcodeRepre" name="postalcode"
+												type="text" class="box-textform"
+												value="#{datosSolicitud.model.interesteddata[1].interestedaddress.postalcode}"
+												disabled="#{!datosSolicitud.enableRepreAddressFields}"
+												maxlength="12" />
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-30column">
+
+										<fieldset>
+
+											<p class="box-texttitle">#{i18n.country}</p>
+
+											<h:selectOneMenu id="countryRepre"
+												value="#{datosSolicitud.model.interesteddata[1].interestedaddress.idcountry}"
+												hideNoSelectionOption="false"
+												converter="javax.faces.Integer"
+												class="box-selectform"
+												disabled="#{!datosSolicitud.enableRepreAddressFields}">
+
+												<f:selectItems value="#{datosSolicitud.countries.entrySet()}"
+													var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+												<f:ajax
+													listener="#{datosSolicitud.onCountryRepreChange}"
+													render="provinceRepre townRepre" />
+
+											</h:selectOneMenu>
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-30column">
+
+										<fieldset>
+
+											<p class="box-texttitle">#{i18n.province}</p>
+
+											<h:selectOneMenu id="provinceRepre"
+												value="#{datosSolicitud.model.interesteddata[1].interestedaddress.provincecode}"
+												hideNoSelectionOption="false"
+												class="box-selectform"
+												disabled="#{!datosSolicitud.enableRepreAddressFields}">
+
+												<f:selectItem itemLabel="#{i18n.select_province}"
+													noSelectionOption="true" />
+
+												<f:selectItems
+													value="#{datosSolicitud.repreProvinces.entrySet()}"
+													var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+												<f:ajax
+													listener="#{datosSolicitud.onProvinceRepreChange}"
+													render="townRepre" />
+
+											</h:selectOneMenu>
+
+										</fieldset>
+
+									</div>
+
+									<div class="box-40column">
+
+										<fieldset>
+
+											<p class="box-texttitle">#{i18n.town}</p>
+
+											<h:selectOneMenu id="townRepre"
+												value="#{datosSolicitud.model.interesteddata[1].interestedaddress.towncode}"
+												hideNoSelectionOption="false"
+												class="box-selectform"
+												disabled="#{!datosSolicitud.enableRepreAddressFields}">
+
+												<f:selectItem itemLabel="#{i18n.select_town}"
+													noSelectionOption="true" />
+
+												<f:selectItems value="#{datosSolicitud.repreTowns.entrySet()}"
+													var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+
+											</h:selectOneMenu>
+										</fieldset>
+									</div>
+								</h:panelGroup>
+							</h:panelGroup>
+
+							<div style="margin-left:12px !important;text-align:left !important">
+								<p:selectBooleanCheckbox
+									value="#{datosSolicitud.saveRepreContactData}"
+									itemLabel="#{i18n.savereprecontactdata}" />
+							</div>
+
+						</div>
+
+					</ui:fragment>
+	<!-- FIN		REPRESENTANTE DE REA O CERTIFICADO -->
+
+
+	<!-- Check añadir representante manual-->
+	<ui:fragment rendered="#{empty datosSolicitud.idRepreInterested}">
+		<div id="secondinterested">
+			<p:selectOneRadio styleClass="radiobuttoninline" layout="grid"
+				columns="2" id="secondinterested"
+				value="#{datosSolicitud.secondinterested}"
+				onchange="fullmanualRepreAddressChange()"
+				onclick="checkSecondInterestedUnselect()" unselectable="true">
+				<!--f:selectItem itemValue="1" itemLabel="#{i18n.representantemanual }" /-->
+				<f:selectItem itemValue="2" itemLabel="#{i18n.representadomanualgrat }" />
+				<f:ajax render="manualRepreFields principalTitle repreTitle secondinterestedpanel docscheckergrid" />
+				<f:ajax event="click" render="manualRepreFields principalTitle repreTitle secondinterestedpanel docscheckergrid" />
+			</p:selectOneRadio>
+		</div>
+	</ui:fragment>
+
+	<!-- 		REPRESENTANTE MANUAL -->
+	<ui:include src="datosRepresentanteManual.xhtml" />
+	<!-- FIN		REPRESENTANTE MANUAL-->
+
+</ui:composition>

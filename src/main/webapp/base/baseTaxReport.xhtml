@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:defaultCommand target="taxreport"/>
+	<p:commandButton id="taxreport" process="@none" global="false" style="display:none;"/>
+
+	<div class="box-100column">
+
+		<ui:fragment rendered="#{datosSolicitud.documentTypesTaxesSize > 0 and datosSolicitud.documentTypesTaxesUserSize > 0}">
+			<div class="boxes-full" style="width: calc(100% - 25px)">
+				<div class="box-title">
+					<h2 style="font-size: 1.3em">#{i18n.taxesmandatory}</h2>
+				</div>
+				<div class="boxes-full" style="width: calc(100% - 25px)">
+						<ui:repeat value="#{datosSolicitud.documentTypesTaxesUser}" var="item">
+							<ui:fragment rendered="#{item.listReportsSize > 0}">
+								<fieldset
+										class="filetypeUploadButton"
+										style="margin: 0px 15px !important; display: contents"
+								>
+									<div
+											id="text_#{item.iddocumentmastertype}"
+											style=" font-size: 1em;
+													float: left;
+													padding-top: 10px;
+													margin: 15px 10px 0px 15px;
+													width: 90%;">
+										<b>#{item.documentTypeName}</b>
+										<div style="margin-left: 5%">
+											<p:selectOneMenu class="box-selectform" id="idtaxreport" value="#{item.idattachmentdata}" converter="javax.faces.Integer" required="true" requiredMessage="#{i18n.missing_idtaxreport}">
+												<f:selectItem itemLabel="#{i18n.null_taxe}" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{item.listReports}" var="entry" itemLabel="#{i18n.date_payment}: #{entry.dateFormat} - #{i18n.idtransaction}: #{entry.idtransaction}" itemValue="#{entry.idattachmentdata}"/>
+												<p:ajax listener="#{datosSolicitud.updateSelectedDocument(item.iddocumentmastertype, item.idattachmentdata)}" update="@this"/>
+											</p:selectOneMenu>
+											<h:commandLink styleClass="ceb-removeFileFromListButton" immediate="true"
+															 action="#{datosSolicitud.generateUrlCSV(item.iddocumentmastertype)}" update="@none">
+												<h:graphicImage style="width: 2.5em;display: inline-block;margin-top: 1.5%;margin-left: 5%;" alt="#{i18n.add_file}" title="#{i18n.add_file}" library="images" name="icons/cloud_download48b.png" />
+												<f:ajax execute="@this" render="@none"/>
+											</h:commandLink>
+										</div>
+									</div>
+
+								</fieldset>
+							</ui:fragment>
+							<div class="clear"></div>
+						</ui:repeat>
+						<p:messages
+								for="fileupload_taxes"
+								showIcon="false"
+								style="display: inline-block"
+						>
+							<p:autoUpdate/>
+						</p:messages>
+				</div>
+			</div>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{datosSolicitud.documentTypesTaxesSize > 0 and datosSolicitud.documentTypesTaxesUserSize == 0}">
+			<div class="boxes-full" style="width: calc(100% - 25px)">
+				<div class="box-title">
+					<h2 style="font-size: 1.3em">#{i18n.taxesmandatory}</h2>
+				</div>
+				<div class="box-100column">
+					<div class="box-100column">
+						<h:outputFormat id="noTaxes" value="#{i18n.info_no_taxes}" escape="false" style="margin-left:0.5em;text-align: justify; margin-right: 5%">
+							<f:param value="#{datosSolicitud.getBeanTaxUrl(i18n.link_here)}" />
+						</h:outputFormat>
+					</div>
+				</div>
+			</div>
+
+		</ui:fragment>
+	</div>
+</ui:composition>

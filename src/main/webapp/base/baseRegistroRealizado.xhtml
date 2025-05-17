@@ -1,0 +1,61 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<script type="text/javascript">
+	sendHeight();
+	</script>
+	
+		<div class="box-100column" style="font-size: 1.2em;">
+							<p>
+								<ui:fragment rendered="#{registrySuccessController.respuesta.idRegistry ne null}">
+								
+									<h:form>
+										<h:graphicImage alt="ok" library="images" name="icons/check.png" style="margin-bottom: -4px;margin-left: 4px;"/>
+										<h:outputText value="&#160;" />
+										<h:outputText value="#{i18n.registryinput_success_text_before_num}" /><h:outputText value="&#160;" />
+										<h:outputText value="#{registrySuccessController.registrycode}" style="font-weight: bold; font-size: 1.2em;" />
+
+										<h:outputLink value="#{registrySuccessController.baseurl}private/registry/registryinput-details.xhtml"
+										style="background-image:none;display:inline-block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;"
+										styleClass="ceb-attl-link"
+										target="_parent">
+
+												<h:graphicImage alt="access" library="images" name="icons/arrow_right.png"
+												style="margin-bottom: -4px;margin-left: 4px;"/>
+												<h:outputText value="&#160;" />
+
+												<h:outputText value="#{i18n.registryinput_full_success_link_text}" />
+
+												<f:param name="idregistry" value="#{registrySuccessController.respuesta.idRegistry}" />
+
+										</h:outputLink>
+										<p:messages showIcon="false" style="display: inline-block;" id="message">
+											<p:autoUpdate />
+										</p:messages>
+										<ui:fragment rendered="#{registrySuccessController.respuesta.idRegistryReport ne null}">
+											<h:outputLink
+											value="#{registrySuccessController.baseurl}dcsv/#{registrySuccessController.reportCSV}"
+											style="background-image:none;display:inline-block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;"
+											styleClass="ceb-attl-link">
+											<h:graphicImage alt="access" library="images" name="icons/arrow_right.png"
+											style="margin-bottom: -4px;margin-left: 4px;"/>
+											<h:outputText value="&#160;" />
+											<h:outputText value="#{i18n.registryinput_success_report_download_link_text}" />
+											</h:outputLink>
+										</ui:fragment>
+											
+									</h:form>
+									
+								</ui:fragment>
+								
+							</p>
+							
+						</div>
+	
+	
+	
+</ui:composition>

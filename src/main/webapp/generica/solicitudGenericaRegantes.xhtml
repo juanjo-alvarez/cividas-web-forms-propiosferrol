@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:composition template="/template/defaultTemplate.xhtml">
+
+		<ui:define name="header">
+			<h:outputStylesheet name="css/custom-forms.css" />
+		<h:outputScript name="js/es6-promise.auto.min.js"/>
+		<h:outputScript name="js/jspdf.umd.min.js"/>
+		<h:outputScript name="js/html2canvas.min.js"/>
+		<h:outputScript name="js/html2pdf.bundle.min.js" />
+		<h:outputScript name="js/printjs.min.js" />
+		<h:outputScript name="js/crypto-js.min.js" />
+
+		</ui:define>
+
+		<ui:define name="formdata">
+			<h:form id="NewRegistryForm" prependId="false">
+				<ui:include src="/base/datosBasicosSolicitud.xhtml" >
+				<ui:param name="datosSolicitud"
+					value="#{solicitudGenericaRegantesController}" />
+			</ui:include>
+			<ui:include src="/base/datosNotificacion.xhtml">
+				<ui:param name="datosSolicitud"
+					value="#{solicitudGenericaRegantesController}" />
+			</ui:include>
+
+				<script type="text/javascript">
+					var i18n_missing_text_check = '#{i18n.missing_text_check}';
+					var i18n_missing_text = '#{i18n.missing_text}';
+					var i18n_missing_check = '#{i18n.missing_check}';
+					var i18n_missing_address = '#{i18n.missing_address}';
+					var i18n_missing_province = '#{i18n.missing_province}';
+					var i18n_missing_town = '#{i18n.missing_town}';
+					var i18n_missing_files = '#{i18n.missing_files}';
+					var i18n_select_province = '#{i18n.select_province}';
+					var i18n_select_town = '#{i18n.select_town}';
+					var i18n_missing_issue = '#{i18n.missing_issue}';
+					var i18n_missing_expose = '#{i18n.missing_expose}';
+					var i18n_missing_ask = '#{i18n.missing_ask}';
+					var i18n_wrong_email = '#{i18n.wrong_email}';
+					var singactive = '#{solicitudGenericaRegantesController.signActive}';
+				</script>
+
+			<!-- Inicio datos específicos-->
+			<div class="box-100column">
+
+				<div class="boxes-full personaldata"
+					style="text-align: justify !important; width: calc(100% - 25px);">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em">
+							<p:outputLabel for="comunidad"
+								value="#{i18n.related_regantes_comunity}" />
+						</h2>
+					</div>
+					<p:panelGrid columns="1"
+						styleClass="cer-receiptInfoGroupContainer cer-receiptInfoBorderContainer"
+						style="width:100%;margin:auto;border-top:none !important;border-bottom:none !important;border: none !important; margin-top: 1em;">
+						<p:row
+							style="border-left: none !important;border-right:none !important">
+
+							<p:column style="text-align:left !important">
+								<p:inputText class="box-textform"
+									style="background: #f3f4f8; margin-top:0px !important; margin-left:0px !important; width: calc(100% - 10px) !important;"
+									id="comunidad"
+									value="#{solicitudGenericaRegantesController.model.registrytypedata.comunidad}"
+									required="true" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</div>
+
+				<div class="boxes-full" style="width: calc(100% - 25px);">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em"><p:outputLabel for="expongo" value="#{i18n.expongo}"/></h2>
+					</div>
+					<h:panelGroup>
+						<div class="box-100column" style="padding: 0px;">
+							<p:inputTextarea class="box-textAreaform"
+								style="width: calc(100% - 20px); border:none;" id="expongo"
+								rows="5" cols="50" onchange="sendHeight();"
+								value="#{solicitudGenericaRegantesController.model.registrytypedata.expongo}"
+								required="true"
+								requiredMessage="#{i18n.expongo} - #{i18n.mandatory_field}" />
+						</div>
+					</h:panelGroup>
+				</div>
+				<div class="boxes-full" style="width: calc(100% - 25px);">
+					<div class="box-title">
+						<h2 style="font-size: 1.3em"><p:outputLabel for="solicito" value="#{i18n.solicito}"/></h2> 
+					</div>
+					<h:panelGroup>
+						<div class="box-100column" style="padding: 0px;">
+							<p:inputTextarea class="box-textAreaform"
+								style="width: calc(100% - 20px); border:none;" id="solicito"
+								rows="5" cols="50" onchange="sendHeight();"
+								value="#{solicitudGenericaRegantesController.model.registrytypedata.solicito}"
+								required="true"
+								requiredMessage="#{i18n.solicito} - #{i18n.mandatory_field}" />
+						</div>
+					</h:panelGroup>
+				</div>
+					
+			</div>
+			
+			
+			<!-- Fin datos específicos-->
+
+			<ui:include src="/base/baseAnexadoDocumentos.xhtml">
+				<ui:param name="datosSolicitud"
+					value="#{solicitudGenericaRegantesController}" />
+			</ui:include>
+
+			<p:messages showIcon="false" style="display: inline-block;">
+					<p:autoUpdate />
+				</p:messages>
+				<p:commandButton action="#{solicitudGenericaRegantesController.sendRequest}" value="#{i18n.sendForm}" 
+					styleClass="rightformbutton"
+					id="hiddenSendButton" style="display:none" 
+					onclick="enableOverlay()"
+					oncomplete="disbaleOverlay();sendHeight();setDocumentationBoxesStyle();"
+					onerror="disbaleOverlay()"/>
+
+								<div id="overlay">
+									<div id="gifprocesando"/>
+									<div id="opacidadfondo"/>
+								</div>
+				
+				 <p:commandButton  widgetVar="send" id="send" styleClass="rightformbutton"
+								value="#{i18n.sendForm}" type="button" onclick="validateBeforeConfirm();"/>
+		        
+				<p:dialog widgetVar="validationDialog" modal="true" resizable="false" width="350"
+							header="#{i18n.alert_validation}" style="width:50%; min-width:540px; max-width:700px;">
+					<f:facet name="header">
+						<h:panelGroup>
+							<i class="ui-icon ui-icon-alert" style="margin-right: 14px; transform: scale(1.6);"></i> #{i18n.alert_validation}
+						</h:panelGroup>
+					</f:facet>
+					<h:panelGroup id="validationMessages" layout="block" style="margin-bottom: 20px;">
+					</h:panelGroup>
+					<p:commandButton value="#{i18n.accept}" type="button" styleClass="ui-button-danger"
+									style="float: right; margin-right: 10px; margin-top: 20px;"
+									onclick="PF('validationDialog').hide();"/>
+				</p:dialog>
+
+				<p:confirmDialog id="confirm" widgetVar="confirmdoc" global="true" showEffect="fade" hideEffect="fade" header="Confirmación"
+								responsive="true" width="350" style="width:50%;min-width:600;max-width:800;"
+								message="#{solicitudGenericaRegantesController.signActive and solicitudGenericaRegantesController.uploadedFiles.size() > 0 ? i18n.confirm_registry_input_sign : i18n.confirm_registry_input_send}">
+					<ui:fragment rendered="#{solicitudGenericaRegantesController.signActive and solicitudGenericaRegantesController.uploadedFiles.size() > 0}">
+						<p:commandButton value="#{i18n.cancelar}" type="button" styleClass="ui-confirmdialog-no"
+										style="float:right" icon="ui-icon-close"/>
+						<p:commandButton value="#{i18n.sign}" type="button"
+							styleClass="ui-confirmdialog-no" style="float:right"
+							icon="ui-icon-close" id="signDocuments" 
+										onclick="PF('confirmdoc').hide();refreshFilesSize(); signDocuments(); enableOverlay(); validateFieldsColor()"
+										oncomplete="disbaleOverlay()">
+						</p:commandButton>
+					</ui:fragment>
+					<ui:fragment rendered="#{not solicitudGenericaRegantesController.signActive or solicitudGenericaRegantesController.uploadedFiles.size() == 0}">
+						<p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no"
+										style="float:right" icon="ui-icon-close"/>
+						<p:commandButton value="#{i18n.yes}" style="float:right" icon="ui-icon-check" widgetVar="yes" id="yes"
+							onclick="PF('confirmdoc').hide();$('#hiddenSendButton').click();validateFieldsColor()" />
+					</ui:fragment>
+		        </p:confirmDialog>
+		        <p:dialog header="#{i18n.signaturedetails}"
+						widgetVar="dialogError" modal="true" width="600px" height="350px"
+							style="width:50%;min-width:600;max-width:800;">
+						<div
+							style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+							<p style="margin-top: 1.5em;">#{i18n.signature_error}</p>
+							<p id="textSignError"
+								style="margin-top: 1.5em; color: #ff0000; font-weight: bold;"
+								lang="ch"></p>
+							<p>#{i18n.signature_error_desc}:</p>
+							<ul>
+								<li>1. #{i18n.signature_must_install_autofirma} <a
+									target="_blank"
+									href="https://firmaelectronica.gob.es/Home/Descargas.html">#{i18n.more_info}.</a></li>
+								<li>2. #{i18n.signature_must_install_certificate} <a
+									target="_blank"
+									href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">#{i18n.more_info}.</a></li>
+								<li>3. #{i18n.signature_multiple_certificates} </li>
+								<li>4. #{i18n.signature_must_allow_certificate} </li>
+								<li>5.
+									#{i18n.signature_certificate_not_expired_or_revoked} <a
+									target="_blank"
+									href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">#{i18n.signature_must_request_verification}</a>
+								</li>
+							</ul>
+							<br />
+							<div class="ceb-flex-container"
+								style="flex-grow: 1; align-items: flex-end;">
+
+								<div class="ceb-item">
+
+									<h:form>
+
+										<p:commandButton value="#{i18n.close}" type="button"
+								style="float:right" styleClass="ui-confirmdialog-no"
+											icon="ui-icon-close" id="closeButton"
+											onclick="PF('dialogError').hide()" />
+
+									</h:form>
+
+								</div>
+							</div>
+						</div>
+					</p:dialog>
+
+			</h:form>
+		<h:form id="filesB64" >
+					<p:inputText type="hidden" id="filesBase64" value="#{solicitudGenericaRegantesController.filesBase64}" />
+					<p:inputText type="hidden" id="uploadedFilesSize" value="#{solicitudGenericaRegantesController.uploadedFilesSize}" />
+					<p:remoteCommand name="refreshFilesSize" update="uploadedFilesSize"/>
+					<p:remoteCommand name="updateFilesBase64" action="#{solicitudGenericaRegantesController.updateFilesBase64}"/>
+		</h:form>
+	</ui:define>
+
+		<!-- Envio de la información de sesión al bean. Esta parte es obligatoria para todos los formularios -->
+		<ui:define name="receiveparameters" >
+			<h:form id="parameters" prependId="false">
+			<h:inputHidden id="received-message"
+				value="#{solicitudGenericaRegantesController.receivedParametersInJSON}" />
+			<h:commandButton
+				action="#{solicitudGenericaRegantesController.receiveParentData}"
+				id="sendParametersToBeanButton" style="display: none;">
+					<f:ajax execute="@form" render="NewRegistryForm" />
+				</h:commandButton>
+			</h:form>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/custom-forms-params.js"></script>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/miniapplet.js"> </script>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/cividasfirma.js"> </script>
+		</ui:define>
+	</ui:composition>
+</html>

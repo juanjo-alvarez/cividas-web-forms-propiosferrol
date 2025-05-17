@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+
+<body>
+	<h:outputStylesheet name="css/custom-forms.css" />
+	<h:outputStylesheet name="css/custom-forms-uvigo.css" />
+	<div>
+		<script type="text/javascript">
+			sendHeight();
+		</script>
+		<div class="box-100column" style="font-size: 1.2em;">
+			<p>
+				<ui:fragment>
+					<h:form>
+						<h:graphicImage alt="ko" library="images"
+							name="icons/delete16.png"
+							style="margin-bottom:-4px;margin-left:4px;" />
+						<h:outputText value="&#160;" />
+						<h:outputText value="#{i18n.registryinput_error_text_before_num}"
+							style="font-weight: bold; font-size: 1.2em;" />
+						<h:outputText value="&#160;" />
+						<p>
+							<h:outputText
+								value="#{i18n.registryinput_found_text_before_num}: "
+								style="font-weight: bold;" />
+							<h:outputText
+								value="#{onlyOneRegistryErrorController.registrycode}" />
+						</p>
+						<h:outputLink
+							value="#{onlyOneRegistryErrorController.baseurl}private/registry/registryinput-details.xhtml"
+							style="background-image:none;display:inline-block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;"
+							styleClass="ceb-attl-link" target="_parent">
+							<h:graphicImage alt="access" library="images"
+								name="icons/arrow_right.png"
+								style="margin-bottom: -4px;margin-left: 4px;" />
+							<h:outputText value="&#160;" />
+							<h:outputText
+								value="#{i18n.registryinput_full_success_link_text}" />
+							<f:param name="idregistry"
+								value="#{onlyOneRegistryErrorController.respuesta.idRegistry}" />
+						</h:outputLink>
+					</h:form>
+				</ui:fragment>
+			</p>
+		</div>
+	</div>
+</body>
+</html>

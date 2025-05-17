@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:p="http://primefaces.org/ui">
+
+	
+	<ui:composition template="/template/defaultTemplate.xhtml">
+		
+		<ui:define name="header">
+		<h:outputStylesheet name="css/custom-forms.css" />
+		<h:outputScript name="js/es6-promise.auto.min.js"/>
+		<h:outputScript name="js/jspdf.umd.min.js"/>
+		<h:outputScript name="js/html2canvas.min.js"/>
+		<h:outputScript name="js/html2pdf.bundle.min.js" />
+		<h:outputScript name="js/printjs.min.js" />
+		<h:outputScript name="js/crypto-js.min.js" />
+
+		</ui:define>
+		
+		<ui:define name="formdata">
+			<h:form id="NewRegistryForm" prependId="false">
+			
+				<ui:include src="/base/datosBasicosSolicitud.xhtml" >
+					<ui:param name="datosSolicitud" value="#{licUrbanisticaController}" />
+				</ui:include>
+		
+		
+				<ui:include src="/base/datosNotificacion.xhtml" >
+					<ui:param name="datosSolicitud" value="#{licUrbanisticaController}" />
+				</ui:include>
+
+				<script type="text/javascript">
+					var i18n_missing_text_check = '#{i18n.missing_text_check}';
+					var i18n_missing_text = '#{i18n.missing_text}';
+					var i18n_missing_check = '#{i18n.missing_check}';
+					var i18n_missing_address = '#{i18n.missing_address}';
+					var i18n_missing_province = '#{i18n.missing_province}';
+					var i18n_missing_town = '#{i18n.missing_town}';
+					var i18n_missing_files = '#{i18n.missing_files}';
+					var i18n_select_province = '#{i18n.select_province}';
+					var i18n_select_town = '#{i18n.select_town}';
+					var i18n_missing_issue = '#{i18n.missing_issue}';
+					var i18n_missing_expose = '#{i18n.missing_expose}';
+					var i18n_missing_ask = '#{i18n.missing_ask}';
+					var i18n_wrong_email = '#{i18n.wrong_email}';
+					var singactive = '#{licUrbanisticaController.signActive}';
+					var i18n_mandatory_documents= '#{i18n.mandatory_documents}';
+					var i18n_missing_idtaxreport = '#{i18n.missing_idtaxreport}';
+					var i18n_missing_tax = '#{i18n.noTaxes}';
+				</script>
+				
+		<!-- Inicio datos específicos-->
+				<div class="box-100column">
+							<div class="boxes-full" style="width: calc(100% - 25px);">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">#{i18n.sol_dynamic_data}</h2>
+								</div>
+		    		<h:panelGroup >
+		    		<div class="box-100column">
+		    		<fieldset>
+					<p:outputLabel for="asunto" value="#{i18n.asunto}" class="box-texttitle">: </p:outputLabel>
+					<p:inputTextarea class="box-textform"  id="asunto" value="#{licUrbanisticaController.model.subject}" rows="5" cols="50" required="true" maxlength="3500" style="margin-left: 10px;" ></p:inputTextarea>
+					</fieldset>
+					</div>
+					
+						<div class="box-100column">
+		    		<fieldset>
+						<p:outputLabel class="box-texttitle" for="descobras" value="#{i18n.descobras}">: </p:outputLabel>
+						<p:inputTextarea class="box-textform" style="margin-left: 10px;" id="descobras" rows="5" cols="50"  value="#{licUrbanisticaController.model.registrytypedata.descobras}" maxlength="3500" required="true" ></p:inputTextarea>
+					</fieldset>
+					</div>
+					<div class="box-100column">
+		    		<fieldset>
+						<p:outputLabel class="box-texttitle" for="situacion" value="#{i18n.situacion}">: </p:outputLabel>
+						<p:inputTextarea class="box-textform" style="margin-left: 10px;" id="situacion" rows="5" cols="50"  value="#{licUrbanisticaController.model.registrytypedata.situacion}" maxlength="3500" required="true" ></p:inputTextarea>
+					</fieldset>
+					</div>
+
+						<div class="box-100column">
+							<div class="box-50column">
+								<fieldset>
+									<p:outputLabel for="refcatastral" value="#{i18n.refcatastral}"
+										class="box-texttitle">: </p:outputLabel>
+									<p:inputText type="text" class="box-textform" id="refcatastral"
+										value="#{licUrbanisticaController.model.registrytypedata.refcatastral}"
+										required="true" style="margin-left: 10px;" />
+								</fieldset>
+							</div>
+
+							<div class="box-50column">
+								<fieldset>
+									<p:outputLabel class="box-texttitle" for="orzamento"
+										value="#{i18n.orzamento}">: </p:outputLabel>
+										<BR />
+									<p:inputNumber styleClass="box-textform-inputnumber"
+										style="margin-left: 10px;" id="orzamento"
+										value="#{licUrbanisticaController.model.registrytypedata.orzamento}"
+										converter="javax.faces.Float" maxValue="10000000"
+										decimalPlaces="2" />
+										<p:outputLabel class="box-texttitle" 
+										value="&#8364;"/>
+								</fieldset>
+							</div>
+						</div>
+
+						<div class="box-100column">
+		    		<fieldset>
+					<p:selectBooleanCheckbox style="padding-left: 10px;" value="#{licUrbanisticaController.agreeWithPolicy}" type="checkbox" class="form-check-input" id="condiciones" 
+					required="true" requiredMessage="#{i18n.condicionesmessage}" > 
+					<f:validator validatorId="com.cividas.customforms.webapp.validators.RequiredCheckboxValidator" />
+					</p:selectBooleanCheckbox>
+					<p:outputLabel class="form-check-label" value="#{i18n.condiciones}" style="margin-left:10px"> </p:outputLabel>
+								
+					</fieldset>
+					</div>
+				</h:panelGroup>
+					</div>
+					</div>
+					
+					
+					
+					<!-- Promotor -->
+					
+						<div class="box-100column">
+							<div class="boxes-full" style="width: calc(100% - 25px);">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">#{i18n.identificacionpromotor}</h2>
+								</div>
+		    		<h:panelGroup >
+					<div class="box-100column">
+		    		<fieldset>
+					<p:outputLabel for="promotoridentificationnumber" value="#{i18n.promotoridentificationnumber}" class="box-texttitle">: </p:outputLabel>
+					<p:inputText type="text" class="box-textform"  id="promotoridentificationnumber" value="#{licUrbanisticaController.model.registrytypedata.promotoridentificationnumber}"  required="false" style="min-width:467px;margin-left: 10px;" />
+					</fieldset>
+					</div>
+					<div class="box-100column">
+		    		<fieldset>
+					<p:outputLabel for="promotorname" value="#{i18n.promotorname}" class="box-texttitle">: </p:outputLabel>
+					<p:inputText type="text" class="box-textform"  id="promotorname" value="#{licUrbanisticaController.model.registrytypedata.promotorname}"  required="false" style="min-width:467px;margin-left: 10px;" />
+					</fieldset>
+					</div>
+						<div class="box-100column">
+							<div class="box-50column">
+								<fieldset>
+									<p:outputLabel for="promotorsurname1"
+										value="#{i18n.promotorsurname1}" class="box-texttitle">: </p:outputLabel>
+									<p:inputText type="text" class="box-textform"
+										id="promotorsurname1"
+										value="#{licUrbanisticaController.model.registrytypedata.promotorsurname1}"
+										required="false" style="margin-left: 10px;" />
+								</fieldset>
+							</div>
+							<div class="box-50column">
+
+
+								<fieldset>
+									<p:outputLabel for="promotorsurname2"
+										value="#{i18n.promotorsurname2}" class="box-texttitle">: </p:outputLabel>
+									<p:inputText type="text" class="box-textform"
+										id="promotorsurname2"
+										value="#{licUrbanisticaController.model.registrytypedata.promotorsurname2}"
+										required="false" style="margin-left: 10px;" />
+								</fieldset>
+
+							</div>
+						</div>
+	
+				</h:panelGroup>
+					</div>
+					</div>
+					
+					
+					<!-- Fin promotor -->
+					
+					
+				<!-- Fin datos específicos-->
+
+				<ui:include src="/base/baseAnexadoDocumentos.xhtml" >
+					<ui:param name="datosSolicitud" value="#{licUrbanisticaController}" />
+				</ui:include>	
+
+
+				<p:messages showIcon="false" style="display: inline-block;">
+					<p:autoUpdate />
+				</p:messages>
+				
+				<p:commandButton action="#{licUrbanisticaController.sendRequest}" value="#{i18n.sendForm}" 
+					styleClass="rightformbutton"
+					id="hiddenSendButton" style="display:none" 
+					onclick="enableOverlay()"
+					oncomplete="disbaleOverlay();sendHeight();"
+					onerror="disbaleOverlay()"/>
+
+				<div id="overlay">
+		           	<div id="gifprocesando"/>
+					<div id="opacidadfondo"/>
+				</div>
+				
+				<p:commandButton widgetVar="send" id="send" styleClass="rightformbutton"
+								 value="#{i18n.sendForm}" type="button"
+								 onclick="remoteValidate();" />
+
+				<p:remoteCommand name="remoteValidate" action="#{licUrbanisticaController.validateAttachmentData}"
+								 oncomplete="validateBeforeConfirm()" />
+
+					<p:dialog widgetVar="validationDialog" modal="true" resizable="false" width="350"
+								header="#{i18n.alert_validation}" style="width:50%; min-width:540px; max-width:700px;">
+						<f:facet name="header">
+							<h:panelGroup>
+								<i class="ui-icon ui-icon-alert" style="margin-right: 14px; transform: scale(1.6);"></i> #{i18n.alert_validation}
+							</h:panelGroup>
+						</f:facet>
+						<h:panelGroup id="validationMessages" layout="block" style="margin-bottom: 20px;">
+						</h:panelGroup>
+						<p:commandButton value="#{i18n.accept}" type="button" styleClass="ui-button-danger"
+										style="float: right; margin-right: 10px; margin-top: 20px;"
+										onclick="PF('validationDialog').hide();"/>
+					</p:dialog>
+
+				<p:confirmDialog message="#{licUrbanisticaController.signActive and licUrbanisticaController.uploadedFiles.size() > 0? i18n.confirm_registry_input_sign : i18n.confirm_registry_input_send}" id="confirm" widgetVar="confirmdoc" global="true" showEffect="fade" hideEffect="fade" header="Confirmación" responsive="true" width="350" style="width:50%;min-width:600;max-width:800;">
+					<ui:fragment rendered="#{licUrbanisticaController.signActive and licUrbanisticaController.uploadedFiles.size() > 0}">
+						<p:commandButton value="#{i18n.cancelar}" type="button" styleClass="ui-confirmdialog-no" style="float:right" icon="ui-icon-close"/>
+						<p:commandButton value="#{i18n.sign}" type="button"
+							styleClass="ui-confirmdialog-no" style="float:right"
+							icon="ui-icon-close" id="signDocuments" 
+							onclick="PF('confirmdoc').hide();refreshFilesSize();signDocuments();enableOverlay();validateFieldsColor()" oncomplete="disbaleOverlay()" >
+						</p:commandButton>
+					</ui:fragment>
+					<ui:fragment rendered="#{not licUrbanisticaController.signActive or licUrbanisticaController.uploadedFiles.size() == 0}">
+			            <p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no" style="float:right" icon="ui-icon-close"/>
+						<p:commandButton value="#{i18n.yes}" style="float:right" icon="ui-icon-check" widgetVar="yes" id="yes"
+							onclick="PF('confirmdoc').hide();$('#hiddenSendButton').click();validateFieldsColor()" />
+					</ui:fragment>
+		        </p:confirmDialog>
+		        
+		        <p:dialog header="#{i18n.signaturedetails}"
+						widgetVar="dialogError" modal="true" width="600px" height="350px"
+						style="width:50%;min-width:600;max-width:800;">
+						<div
+							style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+							<p style="margin-top: 1.5em;">#{i18n.signature_error}</p>
+							<p id="textSignError"
+								style="margin-top: 1.5em; color: #ff0000; font-weight: bold;"
+								lang="ch"></p>
+							<p>#{i18n.signature_error_desc}:</p>
+							<ul>
+								<li>1. #{i18n.signature_must_install_autofirma} <a
+									target="_blank"
+									href="https://firmaelectronica.gob.es/Home/Descargas.html">#{i18n.more_info}.</a></li>
+								<li>2. #{i18n.signature_must_install_certificate} <a
+									target="_blank"
+									href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">#{i18n.more_info}.</a></li>
+								<li>3. #{i18n.signature_multiple_certificates}</li>
+								<li>4. #{i18n.signature_must_allow_certificate} </li>
+								<li>5.
+									#{i18n.signature_certificate_not_expired_or_revoked} <a
+									target="_blank"
+									href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">#{i18n.signature_must_request_verification}</a>
+								</li>
+							</ul>
+							<br />
+							<div class="ceb-flex-container"
+								style="flex-grow: 1; align-items: flex-end;">
+
+								<div class="ceb-item">
+
+									<h:form>
+
+										<p:commandButton value="#{i18n.close}" type="button"
+											style="float:right" styleClass="ui-confirmdialog-no"
+											icon="ui-icon-close" id="closeButton"
+											onclick="PF('dialogError').hide()" />
+
+									</h:form>
+
+								</div>
+							</div>
+						</div>
+					</p:dialog>
+
+			</h:form>
+			<h:form id="filesB64" >
+				<p:inputText type="hidden" id="filesBase64" value="#{licUrbanisticaController.filesBase64}" />
+				<p:inputText type="hidden" id="uploadedFilesSize" value="#{licUrbanisticaController.uploadedFilesSize}" />
+				<p:remoteCommand name="refreshFilesSize" update="uploadedFilesSize"/>
+				<p:remoteCommand name="updateFilesBase64" action="#{licUrbanisticaController.updateFilesBase64}"/>
+			</h:form>
+		</ui:define>
+
+		<!-- Envio de la información de sesión al bean. Esta parte es obligatoria para todos los formularios -->
+		<ui:define name="receiveparameters" >
+			<h:form id="parameters" prependId="false">
+				<h:inputHidden id="received-message" value="#{licUrbanisticaController.receivedParametersInJSON}" />
+				<h:commandButton action="#{licUrbanisticaController.receiveParentData}" id="sendParametersToBeanButton" style="display: none;" >
+					<f:ajax execute="@form" render="NewRegistryForm" />
+				</h:commandButton>
+			</h:form>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/custom-forms-params.js"> </script>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/miniapplet.js"> </script>
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/cividasfirma.js"> </script>
+		</ui:define>
+	</ui:composition>
+</html>

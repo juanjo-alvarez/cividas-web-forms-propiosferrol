@@ -1,0 +1,68 @@
+.box-textAreaform {
+    width: 93%;
+    width: calc(100% - 20px);
+    height: 5.3em;
+    padding: 6px 4px 6px 4px;
+    border: 1px solid #d5d5d5;
+    font-size: 12pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+
+.ui-widget-overlay {
+  background: #2d5972 url(#{resource['images/block-ui-bg.png']}) 50% 50% repeat-x;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}
+
+
+body .booleanCheckbox.ui-chkbox {
+	width: auto;
+}
+
+body .booleanCheckbox .ui-chkbox-box {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 4px;
+}
+
+body .booleanCheckbox .ui-chkbox-label {
+	display: inline !important;
+	vertical-align: middle;
+	margin-top: 0;
+}
+
+
+.ui-outputlabel.ui-state-error {
+    border: 0 none;
+    background: none;
+    color: #b94a48!important;
+    font-weight: bold;
+}
+
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+    border: 1px solid #eed3d7;
+    /* background: #f2dede 50% 50% repeat-x; */
+    background: none;
+    color: #b94a48;
+    font-weight: bold;
+}
+
+
+.ui-datalist-data_imt ul{
+list-style-type: none;
+padding-inline-start: 0px;
+margin-left: 10px;
+}
+
+.ui-datalist-data_imt li{
+padding-bottom: 10px;
+}
+
+.ui-datalist-data_imt div{
+border: none;
+}

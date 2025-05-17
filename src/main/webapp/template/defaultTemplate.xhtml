@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="divresume">
+	<h:head>
+		<title><ui:define name="title">#{i18n.quejsug_title}</ui:define></title>
+		<ui:insert name="header" />
+	</h:head>
+	
+	<h:body id="completeBody">
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/custom-forms.js"> </script>
+		<f:view contentType="text/html" encoding="UTF-8" locale="#{languageBean.lang}">		
+			<!-- Definición del formulario -->
+			<ui:insert name="formdata" />
+			
+			<!-- Recepción de parámetros -->
+			<ui:insert name="receiveparameters" />
+		</f:view>
+		
+	</h:body>
+	</div>
+
+</html>

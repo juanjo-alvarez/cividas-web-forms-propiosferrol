@@ -1,0 +1,592 @@
+
+html {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 80%}
+body {
+    color: #2E2E2E;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+}
+
+h1, h2, h3, h4, h5, h6, th {
+    padding: 0;
+    margin: 0;
+    color: #da600a;
+    font-weight: 400;
+    border-color: gray;
+}
+h1:first-letter, h2:first-letter, h3:first-letter, h4:first-letter, h5:first-letter, h6:first-letter, th:first-letter {
+    text-transform: uppercase;
+}
+h1 a:first-letter, h2 a:first-letter, h3 a:first-letter, h4 a:first-letter, h5 a:first-letter, h6 a:first-letter, th a:first-letter {
+    text-transform: uppercase;
+}
+h1 {
+    font-size: 2em;
+}
+h2 {
+    font-size: 1.4em;
+}
+h3, h4 {
+    font-weight: 700;
+}
+a, a:visited {
+    color: #de770c;
+    text-decoration: none;
+}
+a:hover {
+    color: #de770c;
+    text-decoration: underline;
+}
+hr {
+    background-color: #d5d5d5;
+    height: 1px;
+    border: none;
+}
+.clear {
+    clear: both!important;
+}
+.ceb-spinner {
+    background-color: transparent;
+    display: none;
+    height: 300px;
+    left: 50%;
+    position: fixed;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+    width: 300px;
+    z-index: 100;
+}
+div[contenteditable], span[contenteditable] {
+    border: 1px dotted grey;
+    display: block;
+    min-width: 100px;
+    min-height: 50px;
+}
+
+
+.ceb-removeFileFromListButton {
+    width: 16px;
+    height: 16px;
+}
+.ceb-removeFileFromListButton .ui-icon {
+    left: -1px;
+}
+
+.box-texttitle {
+    width: 100%;
+    padding: 0 4px 0 4px;
+    border: 0;
+    font-size: 11pt;
+    margin-bottom: 0;
+    margin-left: 6px;
+    margin-right: 6px;
+    text-align: left;
+}
+
+.box-100column {
+    width: 100%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-80column {
+    width: 80%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-70column {
+    width: 70%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-65column {
+    width: 65%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-60column {
+    width: 60%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-50column {
+    width: 50%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-40column {
+    width: 40%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-35column {
+    width: 35%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-30column {
+    width: 30%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+    border: 0;
+}
+.box-25column {
+    width: 25%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-20column {
+    width: 20%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-10column {
+    width: 10%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+.box-5column {
+    width: 5%;
+    float: left;
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+
+.box-title {
+    width: 100%;
+    float: left;
+    border-bottom: 1px solid #d5d5d5;
+    padding: 5px 0;
+    text-align: left;
+}
+.box-title h2 {
+    width: 100%;
+    padding-left: 20px;
+    color: #221975;
+    font-size: 16pt;
+}
+
+.boxes-full {
+    background-color: #fff;
+    float: left;
+    border: 1px solid #d5d5d5;
+    text-align: center;
+    position: relative;
+    height: auto;
+    margin: 15px 0;
+    width: 100%}
+.boxes-full h1 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+.boxes-half {
+    background-color: #fff;
+    float: left;
+    border: 1px solid #d5d5d5;
+    text-align: center;
+    position: relative;
+    height: auto;
+    margin: 15px 1%;
+    width: 48%}
+    
+    .box-textform {
+    width: 93%;
+    width: calc(100% - 20px);
+    height: 1.3em;
+    padding: 6px 4px 6px 4px;
+    border: 1px solid #d5d5d5;
+    font-size: 11pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+    .box-textform-inputnumber {
+    /* width: 93%;*/
+    width: calc(100% - 20px);
+    height: 1.3em;
+    padding: 6px 4px 6px 4px;
+    /* border: 1px solid #d5d5d5; */
+    font-size: 11pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+
+.box-textform60 {
+    float: left;
+    width: 53%;
+    width: calc(60% - 20px);
+    height: 1.3em;
+    padding: 6px 4px 6px 4px;
+    border: 1px solid #d5d5d5;
+    font-size: 11pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+.box-selectform {
+    width: 93%;
+    width: calc(100% - 10px);
+    padding: 6px 0 6px 0;
+    border: 1px solid #d5d5d5;
+    font-size: 11pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+.box-selectform60 {
+    float: left;
+    width: 53%;
+    width: calc(60% - 10px);
+    padding: 6px 0 6px 0;
+    border: 1px solid #d5d5d5;
+    font-size: 11pt;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+.box-textarea {
+    width: 93%;
+    width: calc(100% - 20px);
+    display: block;
+    padding: 6px 4px 6px 4px!important;
+    border: 1px solid #d5d5d5;
+    min-height: 180px;
+    font-size: 11pt;
+    margin-left: 6px!important;
+    margin-right: 6px!important;
+}
+.box-textarea-thin {
+    border: 1px solid #d5d5d5;
+    color: #000!important;
+    display: block;
+    font-size: 1em;
+    height: 54px;
+    margin-left: 6px!important;
+    margin-right: 6px!important;
+    min-height: 54px;
+    padding: 6px 4px 6px 4px!important;
+    width: 93%;
+    width: calc(100% - 20px);
+}
+.box-textboxes {
+    width: 93%;
+    width: calc(100% - 20px);
+    float: right;
+    padding: 10px 4px 10px 4px;
+    text-align: left;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+.box-textboxes fieldset {
+    padding: 0 0 15px 0;
+    margin: 0;
+    border: 0;
+}
+.box-button {
+    width: 93%;
+    width: calc(100% - 20px);
+    height: auto;
+    float: right;
+    padding: 10px 4px 10px 4px;
+    text-align: right;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+.file-box-full ul {
+    margin-left: -16px;
+    text-align: left;
+    list-style-position: inside;
+    font-size:0.9em;
+}
+.file-box-full .ui-datalist-content {
+    border: none;
+}
+
+fieldset.fgroup {
+    border: 1px solid #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+fieldset.fsubgroup {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    margin: 0 0 1em 0;
+    padding: 0 5px 10px 10px;
+}
+fieldset.fgroup legend {
+    color: #c00;
+    font-weight: 700;
+    font-size: 16px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    line-height: 18px;
+}
+fieldset.fsubgroup legend {
+    color: #666;
+    font-weight: 700;
+}
+
+.box-100column fieldset, .box-10column fieldset, .box-20column fieldset, .box-25column fieldset, .box-30column fieldset, .box-35column fieldset, .box-40column fieldset, .box-50column fieldset, .box-5column fieldset, .box-60column fieldset, .box-65column fieldset, .box-70column fieldset, .box-80column fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+.box-areatextbox {
+    width:97%;
+    padding: 6px 4px 6px 4px !important;
+    border: 1px solid #d5d5d5;
+    margin: 6px 3px 6px 6px !important;
+    border-radius: 0px;
+}
+    
+
+.form-attachmentdatadesc{
+font-size:0.85em !important;
+width: 30%;
+}
+
+
+.cer-receiptInfoContainer td, .cer-receiptInfoContainer tr {
+    color: #000;
+}
+.cer-receiptInfoContainer td, .cer-receiptInfoContainer tr {
+    border-style: none!important;
+}
+.cer-receiptInfoBorderContainer>tbody>tr {
+    border-right: 1px solid #d3d3d3!important;
+    border-left: 1px solid #d3d3d3!important;
+    border-left-style: solid!important;
+    border-right-style: solid!important;
+}
+.cer-receiptInfoBorderContainer {
+    border-top: 1px solid #d3d3d3!important;
+    border-bottom: 1px solid #d3d3d3!important;
+}
+.cer-receiptInfoContainer>tbody>tr>td {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.rightformbutton {
+    background: #224d90;
+}
+.rightformbutton:hover:enabled {
+    background: #337ab7;
+}
+
+.rightformbutton {
+  /*    background-color: #d46116;*/
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+    padding: 10px 22px!important;
+    float: right;
+    border: 0;
+    color: #FFF!important;
+    margin-right: 1em!important;
+    text-align: center;
+}
+
+.rightformbutton:hover {
+    background-color: #cbcaca;
+    text-decoration: none;
+}
+.rightformbutton:disabled {
+    background-color: #cbcaca;
+}
+
+.cer-receiptInfoGroupContainer table, .cer-receiptInfoGroupContainer td, .cer-receiptInfoGroupContainer tr {
+    vertical-align: top;
+    border: none;
+    border-style: none!important;
+}
+.entryTable {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+.entryTableRow {
+    display: table-row;
+    width: 100%}
+.entryTableHeaderSubRow {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
+.entryTableLeftFieldNameRow {
+    display: table-row;
+    width: 100%}
+.entryTableLeftFieldNameRow .fieldName {
+    margin-bottom: .5em;
+    text-align: left;
+    margin-left: 6%}
+.entryTableHeaderRow {
+    display: table-row;
+    width: 100%}
+.entryTableHeaderRow .entryTableCell {
+    font-style: italic;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, .1);
+    background: rgba(10, 60, 150, .05);
+    color: #221975;
+    font-weight: 400;
+    font-size: 1em;
+    padding: .35em;
+}
+.entryTableBodyRow {
+    display: table-row;
+    width: 100%}
+.entryTableBodyRow .entryTableCell {
+    font-size: 1.2em;
+    padding: .15em;
+    padding-left: 1em;
+    border-top: 1px solid rgba(0, 0, 0, .05);
+}
+.entryTableCell {
+    display: table-cell;
+    text-align: left;
+    padding: .5em;
+    vertical-align: middle;
+    font-size: .85em;
+}
+.entryTableCellFullWidthCentered {
+    display: table-cell;
+    text-align: left;
+    padding: .5em;
+    vertical-align: middle;
+    font-size: .85em;
+    width: 100%;
+    text-align: center;
+}
+.fieldName {
+  color: #221975;
+  float: left;
+  font-weight: bold;
+  min-width: calc(25% - 2em);
+  margin-left: 1em;
+  margin-right: 1em;
+  font-size: 1.2em;
+  text-align: right;
+}
+.fieldValue {
+  float: right;
+  min-width: 75%;
+  font-size: 1.2em;
+}
+.entrySubtitle {
+  color: #221975;
+}
+.entryBillboard {
+    width: 80%;
+    margin: auto;
+    background-color: rgba(238, 238, 238, .3);
+    padding: 2em;
+    margin-bottom: 1.5em;
+}
+.filetypeUploadButton{
+	text-align:left;border: 0px solid;
+	margin: 15px!important;
+}
+.filetypeUploadButton .ui-fileupload-buttonbar{
+	border: solid 0px;
+	background: white;
+}
+.filetypeUploadButton .ui-fileupload-content{
+	border: solid 0px;
+}
+.filetyperow li{
+	list-style:none;
+}
+.ui-fileupload{
+	margin-top:15px;
+}
+
+.datalistdocumentation ul{
+	margin-top:0px;
+}
+
+#gifprocesando{
+  background-image: url(#{ resource [ 'images/procesando_cajetilla.gif' ]});
+  position: fixed;
+  display: none;
+  width: 306px;
+  height: 162px;
+  opacity:1;
+  z-index: 50;
+  cursor: pointer;
+  left: 40%;
+  top: 40%;
+
+}
+
+#opacidadfondo{
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #2d5972 no-repeat fixed center;
+  opacity:.3;
+  filter:alpha(opacity=30);
+  z-index: 50;
+  cursor: pointer;
+}
+
+.ui-widget-overlay {
+	background: #2d5972;
+	opacity:.3;
+	filter:alpha(opacity=30)
+}
+
+.ui-confirm-dialog-severity {
+    display: none !important;
+}
+
+.list-title{
+    font-size: 1.3em;
+    width: 100%;
+    padding-left: 20px;
+    position: relative;
+    top: 4px;
+    color: #221975;
+}
+
+.ui-dialog-title{
+    display: flex;
+    align-content: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
+}

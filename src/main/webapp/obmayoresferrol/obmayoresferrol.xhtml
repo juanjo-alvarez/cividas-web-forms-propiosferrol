@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns="http://www.w3.org/1999/xhtml">
+
+
+<ui:composition template="/template/defaultTemplate.xhtml">
+
+    <ui:define name="header">
+        <h:outputStylesheet name="css/custom-forms.css"/>
+        <h:outputScript name="js/es6-promise.auto.min.js"/>
+        <h:outputScript name="js/jspdf.umd.min.js"/>
+        <h:outputScript name="js/html2canvas.min.js"/>
+        <h:outputScript name="js/html2pdf.bundle.min.js"/>
+        <h:outputScript name="js/printjs.min.js"/>
+        <h:outputScript name="js/crypto-js.min.js"/>
+
+    </ui:define>
+
+    <ui:define name="formdata">
+        <h:form id="NewRegistryForm" prependId="false">
+            <ui:include src="/base/datosBasicosSolicitudFerrol.xhtml">
+                <ui:param name="datosSolicitud"
+                          value="#{obrasMayoresFerrolController}"/>
+            </ui:include>
+            <ui:include src="/base/datosNotificacion.xhtml">
+                <ui:param name="datosSolicitud"
+                          value="#{obrasMayoresFerrolController}"/>
+            </ui:include>
+
+            <script type="text/javascript">
+                var i18n_missing_text_check = '#{i18n.missing_text_check}';
+                var i18n_missing_text = '#{i18n.missing_text}';
+                var i18n_missing_check = '#{i18n.missing_check}';
+                var i18n_missing_address = '#{i18n.missing_address}';
+                var i18n_missing_province = '#{i18n.missing_province}';
+                var i18n_missing_town = '#{i18n.missing_town}';
+                var i18n_missing_files = '#{i18n.missing_files}';
+                var i18n_select_province = '#{i18n.select_province}';
+                var i18n_select_town = '#{i18n.select_town}';
+                var i18n_missing_issue = '#{i18n.missing_issue}';
+                var i18n_missing_expose = '#{i18n.missing_expose}';
+                var i18n_missing_ask = '#{i18n.missing_ask}';
+                var i18n_wrong_email = '#{i18n.wrong_email}';
+                var singactive = '#{obrasMayoresFerrolController.signActive}';
+            </script>
+
+            <!-- Inicio datos específicos-->
+            <div class="boxes-full" style="width: 94%;">
+                <div class="box-title">
+                    <h2 style="font-size: 1.3em">#{i18n.sol_dynamic_data}</h2>
+                </div>
+                <div class="box-50column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="lugar"
+                                    value="#{i18n.obras_mayores_lugar_ext}"
+                                    class="box-texttitle"
+                                    id="lugarlabel"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="lugar"
+                                type="text"
+                                maxlength="70"
+                                onchange="sendHeight();"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.lugar}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_lugar} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div class="box-50column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="numero"
+                                    value="#{i18n.obras_mayores_numero}"
+                                    class="box-texttitle"
+                                    id="numerolabel"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="numero"
+                                type="text"
+                                maxlength="10"
+                                onchange="sendHeight();"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.numero}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_numero} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div class="box-100column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="ref"
+                                    value="#{i18n.obras_mayores_ref}"
+                                    class="box-texttitle"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="ref"
+                                type="text"
+                                maxlength="40"
+                                onchange="sendHeight();"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.referencia}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_ref} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div class="box-100column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="descripcion"
+                                    value="#{i18n.obras_mayores_descripcion}"
+                                    class="box-texttitle"
+                                    id="descripcionlabel"
+                            />
+                        </div>
+                        <p:inputTextarea
+                                id="descripcion"
+                                name="descripcion"
+                                maxlength="500"
+                                type="text"
+                                rows="5"
+                                class="box-areatextbox .box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.descripcion}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_descripcion} - #{i18n.mandatory_field}"
+                        />
+
+                    </fieldset>
+                </div>
+                <div class="box-50column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="superficie"
+                                    value="#{i18n.obras_mayores_superficie}"
+                                    class="box-texttitle"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="superficie"
+                                maxlength="10"
+                                onchange="sendHeight();"
+                                type="text"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.superficie}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_superficie} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div class="box-50column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="presupuesto"
+                                    value="#{i18n.obras_mayores_pres}"
+                                    class="box-texttitle"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="presupuesto"
+                                maxlength="15"
+                                onchange="sendHeight();"
+                                type="text"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.presupuesto}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_mayores_pres} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="boxes-full" style="width: 94%;">
+                <div class="box-title">
+                    <h2 style="font-size: 1.3em">#{i18n.obras_comunico}</h2>
+                </div>
+                <div class="box-100column">
+                    <p style="margin-left:0.5em;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_adventencia_1}</p>
+                    <p style="margin-left: 30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_3}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_4}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_5}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_6}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_7}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_8}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_9}</p>
+                    <p style="margin-left:30px;text-align: justify; margin-right: 1.5em; margin-top: 10px">
+                        #{i18n.obras_advertencia_10}</p>
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="inicio"
+                                    value="#{i18n.obras_inicio_ext}"
+                                    class="box-texttitle"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="inicio"
+                                maxlength="70"
+                                onchange="sendHeight();"
+                                type="text"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.inicio}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_inicio} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div class="box-100column">
+                    <fieldset>
+                        <div>
+                            <p:outputLabel
+                                    for="plazo"
+                                    value="#{i18n.obras_plazo}"
+                                    class="box-texttitle"
+                            />
+                        </div>
+
+                        <h:inputText
+                                id="plazo"
+                                maxlength="20"
+                                onchange="sendHeight();"
+                                type="text"
+                                class="box-textform"
+                                value="#{obrasMayoresFerrolController.model.registrytypedata.plazo}"
+                                required="true"
+                                requiredMessage="#{i18n.obras_plazo} - #{i18n.mandatory_field}"
+                        />
+                    </fieldset>
+                </div>
+                <div style="display:inline-flex">
+                    <p:selectBooleanCheckbox
+                            id="autorizo"
+                            onchange="sendHeight();"
+                            value="#{obrasMayoresFerrolController.autorizo}"
+                            styleClass="booleanCheckbox"
+                            required="true"
+                            requiredMessage="#{autorizo_mandatory_option}"
+                            style="margin-left: 10px;margin-top: 10px;"
+                    >
+                    </p:selectBooleanCheckbox>
+                    <p style="margin-left:0.5em;text-align: justify; margin-right: 1.5em;">
+                        #{i18n.obras_menores_advertencia}</p>
+                </div>
+                <p style="margin-left:0.5em;text-align: justify; margin-right: 1.5em;">#{i18n.obras_advertencia}</p>
+                <p style="margin-left:0.5em;text-align: justify; margin-right: 1.5em;">#{i18n.obras_advertencia_2}</p>
+            </div>
+
+
+            <!-- Fin datos específicos-->
+
+            <ui:include src="/base/baseAnexadoDocumentos.xhtml">
+                <ui:param name="datosSolicitud"
+                          value="#{obrasMayoresFerrolController}"/>
+            </ui:include>
+
+            <p:messages showIcon="false" style="display: inline-block;">
+                <p:autoUpdate/>
+            </p:messages>
+            <p:commandButton action="#{obrasMayoresFerrolController.validateSolicitud}" value="#{i18n.sendForm}"
+                             styleClass="rightformbutton"
+                             id="hiddenSendButton" style="display:none"
+                             onclick="enableOverlay()"
+                             oncomplete="disbaleOverlay();sendHeight();setDocumentationBoxesStyle();"
+                             onerror="disbaleOverlay()"/>
+
+            <div id="overlay">
+                <div id="gifprocesando"/>
+                <div id="opacidadfondo"/>
+            </div>
+
+            <p:commandButton widgetVar="send" id="send" styleClass="rightformbutton"
+                             value="#{i18n.sendForm}" type="button" onclick="validateBeforeConfirm();"/>
+
+            <p:dialog widgetVar="validationDialog" modal="true" resizable="false" width="350"
+                      header="#{i18n.alert_validation}" style="width:50%; min-width:540px; max-width:700px;">
+                <f:facet name="header">
+                    <h:panelGroup>
+                        <i class="ui-icon ui-icon-alert" style="margin-right: 14px; transform: scale(1.6);"></i>
+                        #{i18n.alert_validation}
+                    </h:panelGroup>
+                </f:facet>
+                <h:panelGroup id="validationMessages" layout="block" style="margin-bottom: 20px;">
+                </h:panelGroup>
+                <p:commandButton value="#{i18n.accept}" type="button" styleClass="ui-button-danger"
+                                 style="float: right; margin-right: 10px; margin-top: 20px;"
+                                 onclick="PF('validationDialog').hide();"/>
+            </p:dialog>
+
+            <p:confirmDialog id="confirm" widgetVar="confirmdoc" global="true" showEffect="fade" hideEffect="fade"
+                             header="Confirmación"
+                             responsive="true" width="350" style="width:50%;min-width:600;max-width:800;"
+                             message="#{obrasMayoresFerrolController.signActive and obrasMayoresFerrolController.uploadedFiles.size() > 0 ? i18n.confirm_registry_input_sign : i18n.confirm_registry_input_send}">
+                <ui:fragment
+                        rendered="#{obrasMayoresFerrolController.signActive and obrasMayoresFerrolController.uploadedFiles.size() > 0}">
+                    <p:commandButton value="#{i18n.cancelar}" type="button" styleClass="ui-confirmdialog-no"
+                                     style="float:right" icon="ui-icon-close"/>
+                    <p:commandButton value="#{i18n.sign}" type="button"
+                                     styleClass="ui-confirmdialog-no" style="float:right"
+                                     icon="ui-icon-close" id="signDocuments"
+                                     onclick="PF('confirmdoc').hide();refreshFilesSize(); signDocuments(); enableOverlay(); validateFieldsColor()"
+                                     oncomplete="disbaleOverlay()">
+                    </p:commandButton>
+                </ui:fragment>
+                <ui:fragment
+                        rendered="#{not obrasMayoresFerrolController.signActive or obrasMayoresFerrolController.uploadedFiles.size() == 0}">
+                    <p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no"
+                                     style="float:right" icon="ui-icon-close"/>
+                    <p:commandButton value="#{i18n.yes}" style="float:right" icon="ui-icon-check" widgetVar="yes"
+                                     id="yes"
+                                     onclick="PF('confirmdoc').hide();$('#hiddenSendButton').click();validateFieldsColor()"/>
+                </ui:fragment>
+            </p:confirmDialog>
+            <p:dialog header="#{i18n.signaturedetails}"
+                      widgetVar="dialogError" modal="true" width="600px" height="350px"
+                      style="width:50%;min-width:600;max-width:800;">
+                <div
+                        style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+                    <p style="margin-top: 1.5em;">#{i18n.signature_error}</p>
+                    <p id="textSignError"
+                       style="margin-top: 1.5em; color: #ff0000; font-weight: bold;"
+                       lang="ch"></p>
+                    <p>#{i18n.signature_error_desc}:</p>
+                    <ul>
+                        <li>1. #{i18n.signature_must_install_autofirma} <a
+                                target="_blank"
+                                href="https://firmaelectronica.gob.es/Home/Descargas.html">#{i18n.more_info}.</a></li>
+                        <li>2. #{i18n.signature_must_install_certificate} <a
+                                target="_blank"
+                                href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">#{i18n.more_info}.</a>
+                        </li>
+                        <li>3. #{i18n.signature_multiple_certificates}</li>
+                        <li>4. #{i18n.signature_must_allow_certificate}</li>
+                        <li>5.
+                            #{i18n.signature_certificate_not_expired_or_revoked} <a
+                                    target="_blank"
+                                    href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">#{i18n.signature_must_request_verification}</a>
+                        </li>
+                    </ul>
+                    <br/>
+                    <div class="ceb-flex-container"
+                         style="flex-grow: 1; align-items: flex-end;">
+
+                        <div class="ceb-item">
+
+                            <h:form>
+
+                                <p:commandButton value="#{i18n.close}" type="button"
+                                                 style="float:right" styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close" id="closeButton"
+                                                 onclick="PF('dialogError').hide()"/>
+
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </p:dialog>
+
+        </h:form>
+        <h:form id="filesB64">
+            <p:inputText type="hidden" id="filesBase64" value="#{obrasMayoresFerrolController.filesBase64}"/>
+            <p:inputText type="hidden" id="uploadedFilesSize"
+                         value="#{obrasMayoresFerrolController.uploadedFilesSize}"/>
+            <p:remoteCommand name="refreshFilesSize" update="uploadedFilesSize"/>
+            <p:remoteCommand name="updateFilesBase64" action="#{obrasMayoresFerrolController.updateFilesBase64}"/>
+        </h:form>
+    </ui:define>
+
+    <!-- Envio de la información de sesión al bean. Esta parte es obligatoria para todos los formularios -->
+    <ui:define name="receiveparameters">
+        <h:form id="parameters" prependId="false">
+            <h:inputHidden id="received-message"
+                           value="#{obrasMayoresFerrolController.receivedParametersInJSON}"/>
+            <h:commandButton
+                    action="#{obrasMayoresFerrolController.receiveParentData}"
+                    id="sendParametersToBeanButton" style="display: none;">
+                <f:ajax execute="@form" render="NewRegistryForm"/>
+            </h:commandButton>
+        </h:form>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/custom-forms-params.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/miniapplet.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/afirma/cividasfirma.js"></script>
+    </ui:define>
+</ui:composition>
+</html>

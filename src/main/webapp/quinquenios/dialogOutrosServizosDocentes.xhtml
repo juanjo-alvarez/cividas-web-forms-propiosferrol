@@ -1,0 +1,59 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:dialog header="#{i18n.titleOutroServicioDocenteDialog}" widgetVar="outroServicioDocenteDialog" resizable="true" modal="true" width="calc(100% - 25px)"  >
+			<h:form id="dlgOutroServicioDocente" >
+				<h:panelGrid id="outroServicioDocenteData" width="calc(100% - 25px)">
+					<p:outputLabel class="box-texttitle" for="servdoc_categoria" value="#{i18n.servdoc_categoria}">: </p:outputLabel>
+					<p:inputText id="servdoc_categoria"	value="#{quinqueniosController.selectedOutroServizoDocente.categoria}" size="95" required="true" maxlength="512"/>
+					<div  >
+						<p:panelGrid columns="2" layout="flex" styleClass="ui-noborder">
+							<p:row  >
+								<p:outputLabel for="fechainiServDocDisplay"
+									value="#{i18n.servdoc_fechaini}">: </p:outputLabel>
+								
+								<p:datePicker id="fechainiServDocDisplay" showIcon="true" style="width:auto" locale="es"
+								pattern="dd/MM/yyyy" value="#{quinqueniosController.selectedOutroServizoDocente.fechainidate}" required="true">
+								<f:validator validatorId="com.cividas.customforms.webapp.validators.pastDateValidator"/>
+								</p:datePicker>
+
+								<p:outputLabel for="fechafinServDocDisplay"
+									value="#{i18n.servdoc_fechafin}">: </p:outputLabel>
+									
+									<p:datePicker id="fechafinServDocDisplay" showIcon="true" style="width:auto" locale="es"
+								pattern="dd/MM/yyyy" value="#{quinqueniosController.selectedOutroServizoDocente.fechafindate}" required="true"/>
+
+							</p:row>
+						</p:panelGrid>
+					</div>
+
+					<p:outputLabel class="box-texttitle" for="servdoc_reximededicacion" value="#{i18n.servdoc_reximededicacion}">: </p:outputLabel>
+					<p:inputText id="servdoc_reximededicacion"	value="#{quinqueniosController.selectedOutroServizoDocente.reximededicacion}" size="95" required="true" maxlength="512"/>
+
+					<p:outputLabel class="box-texttitle" for="servdoc_organismo" value="#{i18n.servdoc_organismo}">: </p:outputLabel>
+					<p:inputText id="servdoc_organismo"	value="#{quinqueniosController.selectedOutroServizoDocente.organismo}" size="95" required="true" maxlength="512"/>
+					
+<!-- 					<p:outputLabel class="box-texttitle" for="servdoc_rexime" value="#{i18n.servdoc_rexime}">: </p:outputLabel> -->
+<!-- 					<p:inputText id="servdoc_rexime"	value="#{quinqueniosController.selectedOutroServizoDocente.rexime}" size="95" required="true" maxlength="512"/> -->
+					<p:messages id="servdocMessages" showIcon="false" autoUpdate="true"/>
+				</h:panelGrid>
+
+				<h:panelGrid id="outroServicioDocenteButtons" width="calc(100% - 25px)">	
+					<p:commandButton id="buttonNuevo" value="#{i18n.buttonSaveDialog}"
+						actionListener="#{quinqueniosController.newOutroServizoDocente}"
+						update="panelDatatableOutrosServiciosDocentes :outrosServiciosDocentesTable outroServicioDocenteData"
+						rendered="#{empty quinqueniosController.selectedOutroServizoDocente.idserviciodocente}" />
+					
+					<p:commandButton id="buttonSave" value="#{i18n.buttonSaveDialog}"
+						actionListener="#{quinqueniosController.saveOutroServizoDocente}"
+						update="panelDatatableOutrosServiciosDocentes :outrosServiciosDocentesTable outroServicioDocenteData"
+						rendered="#{!empty quinqueniosController.selectedOutroServizoDocente.idserviciodocente}" />										
+						
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>		
+</ui:composition>

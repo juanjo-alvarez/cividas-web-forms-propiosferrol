@@ -1,0 +1,85 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<!-- Lista programas bolsas -->
+							<div class="boxes-full" style="width: calc(100% - 13px);margin-left: 10px">
+								<div class="box-title">
+									<h2 style="font-size: 1.3em">
+									<div id="wrapper" style="width: 700px">
+										<div style="float:left">
+											#{i18n.titleProgramasBolsasDialog}
+										</div>  
+										<div style="float:right;font-size: 0.7em"> 
+											<p:commandButton update="dlgProgramaBolsa:programaBolsaData dlgProgramaBolsa:programaBolsaButtons"
+												oncomplete="PF('programaBolsaDialog').show()"
+												value="#{i18n.anadir}" immediate="true"
+												action="#{quinqueniosController.addProgramaBolsa}">
+											</p:commandButton>
+										</div>
+									</div>
+									</h2>
+								</div>
+							    <h:panelGroup id="panelDatatableProgramasBolsas"  >
+									<div class="box-100column">
+										<p:dataTable id="programasBolsasTable" var="programabolsa"
+											value="#{quinqueniosController.programasBolsas}" emptyMessage="" rendered="#{!empty quinqueniosController.programasBolsas}">
+			    
+			    
+			    <p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechaini}" />							
+												</f:facet>						
+												<h:outputText value="#{programabolsa.fechainidate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+						
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_fechafin}" />
+												</f:facet>
+												<h:outputText value="#{programabolsa.fechafindate}" >
+													<f:converter converterId="extendedDateTimeConverter" />
+												    <f:attribute name="pattern" value="dd/MM/yyyy" />
+												    <f:attribute name="timeZone" value="Europe/Madrid" />
+												</h:outputText>
+											</p:column>
+			    
+			    
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#{i18n.servdoc_organismo}" />							
+												</f:facet>
+												<h:outputText value="#{programabolsa.organismo.length() gt 20 ? programabolsa.organismo.substring(0,17).concat('...') : programabolsa.organismo}" />
+											</p:column>
+											
+											<p:column style="width:40px">
+																
+												<p:commandLink update="dlgProgramaBolsa:programaBolsaData dlgProgramaBolsa:programaBolsaButtons"
+													oncomplete="PF('programaBolsaDialog').show()" immediate="true">
+													<f:setPropertyActionListener value="#{programabolsa}" target="#{quinqueniosController.selectedProgramaBolsa}" />											
+														<h:graphicImage alt="ko" library="images" name="icons/magnifying_glass16.png" style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+													
+												<p:commandLink update="panelDatatableProgramasBolsas programasBolsasTable" immediate="true" >
+													<f:setPropertyActionListener value="#{programabolsa}" target="#{quinqueniosController.deletedProgramaBolsa}" />											
+													<h:graphicImage alt="ko" library="images" name="icons/delete16.png"	style="margin-bottom:-4px;margin-left:4px;" />						
+												</p:commandLink>
+						
+											</p:column>			
+										</p:dataTable>									
+									</div>
+									
+								</h:panelGroup>	
+							</div>
+			
+					
+
+</ui:composition>

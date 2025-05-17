@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="#{i18n.titlePreferenciaBolsaDialog}"
+		widgetVar="preferenciaBolsaDialog" resizable="true" modal="true"
+		width="calc(100% - 25px)">
+		<h:form id="dlgPreferenciaBolsa">
+			<h:panelGrid id="preferenciaBolsaData" width="calc(100% - 25px)">
+				<!-- Bolsa que se solicita -->
+				<p:outputLabel class="box-texttitle" for="codbolsa"
+					value="#{i18n.descbolsa}:" />
+				<h:selectOneMenu class="box-selectform" id="codbolsa"
+					value="#{datosSolicitud.selectedPreferenciaBolsa.codbolsa}"
+					required="true" disabled="false"
+					style="min-width:50px;opacity: 0.65">
+					<f:selectItem itemValue="" itemLabel="#{i18n.add_bolsa}"
+						noSelectionOption="true" />
+					<f:selectItems
+						value="#{datosSolicitud.bolsaFormacionList.entrySet()}" var="entry"
+						itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+				</h:selectOneMenu>
+				<p:messages id="prefBolsaMessages" showIcon="false"
+					autoUpdate="true" />
+			</h:panelGrid>
+			<h:panelGrid id="preferenciaBolsaButtons" width="calc(100% - 25px)">
+				<p:commandButton id="buttonNuevo" value="#{i18n.buttonSaveDialog}"
+					actionListener="#{datosSolicitud.newPreferenciaBolsa}"
+					update="panelDatatablePreferenciasBolsas :preferenciasBolsasTable preferenciaBolsaData preferencesHasValue"
+					rendered="#{empty datosSolicitud.selectedPreferenciaBolsa.codbolsa}" />
+				<p:commandButton id="buttonSave" value="#{i18n.buttonSaveDialog}"
+					actionListener="#{datosSolicitud.savePreferenciaBolsa}"
+					update="panelDatatablePreferenciasBolsas :preferenciasBolsasTable preferenciaBolsaData preferencesHasValue"
+					rendered="#{!empty datosSolicitud.selectedPreferenciaBolsa.codbolsa}" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>
